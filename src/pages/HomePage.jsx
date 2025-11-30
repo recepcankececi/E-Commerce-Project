@@ -2,6 +2,7 @@
 import EditorsPick from '../components/EditorsPick';
 import FeaturedProducts from '../components/FeaturedProducts';
 import VitaClassicCarousel from '../components/VitaClassicCarousel';
+import NeuralUniverse from '../components/NeuralUniverse';
 
 const HomePage = () => {
     return (
@@ -10,6 +11,7 @@ const HomePage = () => {
             <EditorsPick />
             <FeaturedProducts />
             <VitaClassicCarousel />
+            <NeuralUniverse />
             {/* Diğer home page bölümleri buraya eklenecek */}
         </div>
     );
