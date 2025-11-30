@@ -1,27 +1,10 @@
-﻿import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { vitaClassicSlides } from '../data/carouselData';
 
 const VitaClassicCarousel = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
-
-    const slides = [
-        {
-            id: 1,
-            season: 'SUMMER 2020',
-            title: 'Vita Classic Product',
-            description: 'We know how large objects will act. We know how are objects will act. We know',
-            price: '16.48',
-            image: '/images/vita-classic-1.jpg'
-        },
-        {
-            id: 2,
-            season: 'SUMMER 2020',
-            title: 'Vita Classic Product',
-            description: 'We know how large objects will act, but things on a small scale.',
-            price: '16.48',
-            image: '/images/vita-classic-2.jpg'
-        }
-    ];
+    const slides = vitaClassicSlides;
 
     const nextSlide = () => {
         setCurrentSlide((prev) => (prev + 1) % slides.length);

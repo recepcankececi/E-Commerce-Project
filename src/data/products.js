@@ -1,0 +1,98 @@
+export const products = [
+    {
+        id: 1,
+        title: 'Graphic Design',
+        department: 'English Department',
+        originalPrice: 16.48,
+        price: 6.48,
+        colors: ['#23A6F0', '#23856D', '#E77C40', '#252B42'],
+        image: '/images/product-1.jpg',
+        category: 'women',
+        rating: 4.5,
+        stock: 15
+    },
+    {
+        id: 2,
+        title: 'Graphic Design',
+        department: 'English Department',
+        originalPrice: 16.48,
+        price: 6.48,
+        colors: ['#23A6F0', '#23856D', '#E77C40', '#252B42'],
+        image: '/images/product-2.jpg',
+        category: 'men',
+        rating: 4.2,
+        stock: 22
+    },
+    {
+        id: 3,
+        title: 'Graphic Design',
+        department: 'English Department',
+        originalPrice: 16.48,
+        price: 6.48,
+        colors: ['#23A6F0', '#23856D', '#E77C40', '#252B42'],
+        image: '/images/product-3.jpg',
+        category: 'women',
+        rating: 4.8,
+        stock: 8
+    },
+    {
+        id: 4,
+        title: 'Graphic Design',
+        department: 'English Department',
+        originalPrice: 16.48,
+        price: 6.48,
+        colors: ['#23A6F0', '#23856D', '#E77C40', '#252B42'],
+        image: '/images/product-4.jpg',
+        category: 'accessories',
+        rating: 4.0,
+        stock: 30
+    },
+    {
+        id: 5,
+        title: 'Graphic Design',
+        department: 'English Department',
+        originalPrice: 16.48,
+        price: 6.48,
+        colors: ['#23A6F0', '#23856D', '#E77C40', '#252B42'],
+        image: '/images/product-5.jpg',
+        category: 'men',
+        rating: 4.6,
+        stock: 12
+    },
+    {
+        id: 6,
+        title: 'Graphic Design',
+        department: 'English Department',
+        originalPrice: 16.48,
+        price: 6.48,
+        colors: ['#23A6F0', '#23856D', '#E77C40', '#252B42'],
+        image: '/images/product-6.jpg',
+        category: 'women',
+        rating: 4.3,
+        stock: 18
+    },
+    {
+        id: 7,
+        title: 'Graphic Design',
+        department: 'English Department',
+        originalPrice: 16.48,
+        price: 6.48,
+        colors: ['#23A6F0', '#23856D', '#E77C40', '#252B42'],
+        image: '/images/product-7.jpg',
+        category: 'men',
+        rating: 4.7,
+        stock: 25
+    },
+    {
+        id: 8,
+        title: 'Graphic Design',
+        department: 'English Department',
+        originalPrice: 16.48,
+        price: 6.48,
+        colors: ['#23A6F0', '#23856D', '#E77C40', '#252B42'],
+        image: '/images/product-8.jpg',
+        category: 'kids',
+        rating: 4.4,
+        stock: 20
+    }
+];

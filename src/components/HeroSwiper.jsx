@@ -1,25 +1,10 @@
-﻿import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { heroSlides } from '../data/carouselData';
 
 const HeroSwiper = () => {
     const [currentSlide, setCurrentSlide] = useState(0);
-
-    const slides = [
-        {
-            id: 1,
-            season: 'SUMMER 2020',
-            title: 'NEW COLLECTION',
-            description: 'We know how large objects will act, but things on a small scale.',
-            image: '/hero-image.jpg', // Placeholder 
-        },
-        {
-            id: 2,
-            season: 'SUMMER 2020',
-            title: 'NEW COLLECTION',
-            description: 'We know how large objects will act, but things on a small scale.',
-            image: '/hero-image.jpg',
-        },
-    ];
+    const slides = heroSlides;
 
     const nextSlide = () => {
         setCurrentSlide((prev) => (prev + 1) % slides.length);

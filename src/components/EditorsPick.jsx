@@ -1,31 +1,6 @@
-﻿const EditorsPick = () => {
-    const categories = [
-        {
-            id: 1,
-            title: 'MEN',
-            image: '/images/men-category.jpg',
-            className: 'lg:row-span-2'
-        },
-        {
-            id: 2,
-            title: 'WOMEN',
-            image: '/images/women-category.jpg',
-            className: 'lg:row-span-2'
-        },
-        {
-            id: 3,
-            title: 'ACCESSORIES',
-            image: '/images/accessories-category.jpg',
-            className: ''
-        },
-        {
-            id: 4,
-            title: 'KIDS',
-            image: '/images/kids-category.jpg',
-            className: ''
-        }
-    ];
+import { categories } from '../data/categories';
 
+const EditorsPick = () => {
     return (
         <section className="py-12 lg:py-20 bg-[#FAFAFA]">
             <div className="container mx-auto px-4">
@@ -41,68 +16,30 @@
 
                 {/* Categories Grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 lg:gap-7 lg:grid-rows-2">
-                    {/* MEN - Large Card */}
-                    <div className="relative group overflow-hidden lg:col-span-2 lg:row-span-2">
-                        <div className="relative h-[500px] lg:h-full bg-gray-200">
-                            {/* Image placeholder - gerçek görselde buraya img tag gelecek */}
-                            <div className="w-full h-full bg-gradient-to-br from-gray-300 to-gray-400" />
+                    {categories.map((category) => {
+                        const heightClass = category.id === 1 || category.id === 2 ? 'h-[500px]' : 'h-[242px]';
+                        const paddingClass = category.id === 1 ? 'px-12' : category.id === 2 ? 'px-8' : category.id === 3 ? 'px-6' : 'px-10';
+                        const textSizeClass = category.id === 3 ? 'text-sm' : '';
+                        
+                        return (
+                            <div key={category.id} className={`relative group overflow-hidden ${category.className}`}>
+                                <div className={`relative ${heightClass} lg:h-full bg-gray-200`}>
+                                    {/* Image placeholder - gerçek görselde buraya img tag gelecek */}
+                                    <div className="w-full h-full bg-gradient-to-br from-gray-300 to-gray-400" />
 
-                            {/* Overlay */}
-                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
+                                    {/* Overlay */}
+                                    <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
 
-                            {/* Category Label */}
-                            <div className="absolute bottom-6 left-6">
-                                <button className="bg-white px-12 py-3 font-bold text-[#252B42] hover:bg-gray-100 transition-colors">
-                                    MEN
-                                </button>
+                                    {/* Category Label */}
+                                    <div className="absolute bottom-6 left-6">
+                                        <button className={`bg-white ${paddingClass} py-3 font-bold text-[#252B42] ${textSizeClass} hover:bg-gray-100 transition-colors`}>
+                                            {category.title}
+                                        </button>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
-
-                    {/* WOMEN - Large Card */}
-                    <div className="relative group overflow-hidden lg:col-span-1 lg:row-span-2">
-                        <div className="relative h-[500px] lg:h-full bg-gray-200">
-                            <div className="w-full h-full bg-gradient-to-br from-gray-300 to-gray-400" />
-
-                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
-
-                            <div className="absolute bottom-6 left-6">
-                                <button className="bg-white px-8 py-3 font-bold text-[#252B42] hover:bg-gray-100 transition-colors">
-                                    WOMEN
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* ACCESSORIES - Small Card */}
-                    <div className="relative group overflow-hidden lg:col-span-1 lg:row-span-1">
-                        <div className="relative h-[242px] lg:h-full bg-gray-200">
-                            <div className="w-full h-full bg-gradient-to-br from-gray-300 to-gray-400" />
-
-                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
-
-                            <div className="absolute bottom-6 left-6">
-                                <button className="bg-white px-6 py-3 font-bold text-[#252B42] text-sm hover:bg-gray-100 transition-colors">
-                                    ACCESSORIES
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-
-                    {/* KIDS - Small Card */}
-                    <div className="relative group overflow-hidden lg:col-span-1 lg:row-span-1">
-                        <div className="relative h-[242px] lg:h-full bg-gray-200">
-                            <div className="w-full h-full bg-gradient-to-br from-gray-300 to-gray-400" />
-
-                            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
-
-                            <div className="absolute bottom-6 left-6">
-                                <button className="bg-white px-10 py-3 font-bold text-[#252B42] hover:bg-gray-100 transition-colors">
-                                    KIDS
-                                </button>
-                            </div>
-                        </div>
-                    </div>
+                        );
+                    })}
                 </div>
             </div>
         </section>

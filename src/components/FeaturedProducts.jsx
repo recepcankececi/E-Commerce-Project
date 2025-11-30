@@ -1,20 +1,7 @@
-﻿import ProductCard from './ProductCard';
+import ProductCard from './ProductCard';
+import { products } from '../data/products';
 
 const FeaturedProducts = () => {
-    // Mock data - gerçek projede API'den gelecek
-    const products = [
-        {
-            id: 1,
-            title: 'Graphic Design',
-            department: 'English Department',
-            originalPrice: 16.48,
-            price: 6.48,
-            colors: ['#23A6F0', '#23856D', '#E77C40', '#252B42'],
-            image: '/images/product-1.jpg'
-        },
-        // ... 8 ürün toplam
-    ];
-
     return (
         <section className="py-12 lg:py-20">
             <div className="container mx-auto px-4">
