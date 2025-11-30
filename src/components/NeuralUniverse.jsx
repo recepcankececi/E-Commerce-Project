@@ -23,11 +23,11 @@
                             We know how large objects will act, but things on a small scale.
                         </p>
                         <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto">
-                            <button className="bg-[#2DC071] hover:bg-[#25a35f] text-white font-bold text-sm px-10 py-4 rounded transition-colors">
+                            <button className="bg-[#23A6F0] hover:bg-[#1a8fd9] text-white font-bold text-sm px-10 py-4 rounded transition-colors">
                                 BUY NOW
                             </button>
-                            <button className="border-2 border-[#2DC071] text-[#2DC071] hover:bg-[#2DC071] hover:text-white font-bold text-sm px-10 py-4 rounded transition-colors">
-                                READ MORE
+                            <button className="border-2 border-[#23A6F0] text-[#23A6F0] hover:bg-[#23A6F0] hover:text-white font-bold text-sm px-10 py-4 rounded transition-colors">
+                                Learn More
                             </button>
                         </div>
                     </div>
