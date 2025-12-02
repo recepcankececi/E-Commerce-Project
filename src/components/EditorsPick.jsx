@@ -15,14 +15,15 @@ const EditorsPick = () => {
                 </div>
 
                 {/* Categories Grid */}
-                <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 lg:gap-7 lg:grid-rows-2">
+                <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 lg:gap-4 lg:grid-rows-2">
                     {categories.map((category) => {
                         const heightClass = category.id === 1 || category.id === 2 ? 'h-[500px]' : 'h-[242px]';
-                        const paddingClass = category.id === 1 ? 'px-12' : category.id === 2 ? 'px-8' : category.id === 3 ? 'px-6' : 'px-10';
-                        const textSizeClass = category.id === 3 ? 'text-sm' : '';
                         
                         return (
-                            <div key={category.id} className={`relative group overflow-hidden ${category.className}`}>
+                            <div 
+                                key={category.id} 
+                                className={`relative group overflow-hidden ${category.gridClass}`}
+                            >
                                 <div className={`relative ${heightClass} lg:h-full`}>
                                     <img 
                                         src={category.image} 
@@ -35,7 +36,7 @@ const EditorsPick = () => {
 
                                     {/* Category Label */}
                                     <div className="absolute bottom-6 left-6">
-                                        <button className={`bg-white ${paddingClass} py-3 font-bold text-[#252B42] ${textSizeClass} hover:bg-gray-100 transition-colors`}>
+                                        <button className="bg-white px-8 py-3 font-bold text-[#252B42] hover:bg-gray-100 transition-colors">
                                             {category.title}
                                         </button>
                                     </div>
