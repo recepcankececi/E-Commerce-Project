@@ -33,32 +33,72 @@ const VitaClassicCarousel = () => {
                             index === currentSlide ? 'opacity-100' : 'opacity-0 absolute inset-0'
                         }`}
                     >
-                        <div className="container mx-auto px-4">
-                            <div className="grid lg:grid-cols-2 gap-8 items-center min-h-[600px] lg:min-h-[700px]">
-                                {/* Left Content */}
-                                <div className="flex flex-col justify-center text-white py-12 lg:py-20 order-2 lg:order-1">
-                                    <h5 className="font-bold text-base lg:text-lg mb-6 lg:mb-8">
+                        <div className="container mx-auto px-4 h-full">
+                            {/* Mobile Layout */}
+                            <div className="lg:hidden relative min-h-[1100px]">
+                                {/* Content - Top */}
+                                <div className="absolute top-0 left-0 right-0 flex flex-col text-white text-center pt-20 px-6">
+                                    <h5 className="font-bold text-lg mb-6">
                                         {slide.season}
                                     </h5>
-                                    <h2 className="font-bold text-4xl lg:text-6xl leading-tight mb-6 lg:mb-8">
+                                    <h2 className="font-bold text-5xl leading-tight mb-5 px-4">
                                         {slide.title}
                                     </h2>
-                                    <p className="text-lg lg:text-xl mb-6 lg:mb-8 max-w-md">
+                                    <p className="text-lg mb-6 max-w-md mx-auto px-2 leading-relaxed">
                                         {slide.description}
                                     </p>
-                                    <div className="flex items-center gap-6 lg:gap-8">
-                    <span className="text-2xl lg:text-3xl font-bold">
-                      ${slide.price}
-                    </span>
-                                        <button className="bg-[#2DC071] hover:bg-[#25a35f] text-white font-bold text-sm lg:text-base px-8 lg:px-10 py-3 lg:py-4 rounded transition-colors">
+                                    <div className="mb-2">
+                                        <span className="text-3xl font-bold">
+                                            ${slide.price}
+                                        </span>
+                                    </div>
+                                </div>
+
+                                {/* Button - Anchored to Absolute Center */}
+                                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-30">
+                                    <button className="bg-[#2DC071] hover:bg-[#25a35f] text-white font-bold text-sm px-10 py-3 rounded transition-colors whitespace-nowrap">
+                                        ADD TO CART
+                                    </button>
+                                </div>
+
+                                {/* Image - Below Button */}
+                                <div className="absolute top-1/2 left-0 right-0 flex justify-center pt-16">
+                                    <div className="w-full max-w-sm px-4">
+                                        <img 
+                                            src={slide.image} 
+                                            alt={slide.title}
+                                            className="w-full h-auto object-contain"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+
+                            {/* Desktop Layout */}
+                            <div className="hidden lg:grid lg:grid-cols-2 lg:gap-8 lg:items-center min-h-[700px]">
+                                {/* Content - Left on Desktop */}
+                                <div className="flex flex-col justify-center text-white text-left py-20">
+                                    <h5 className="font-bold text-lg mb-8">
+                                        {slide.season}
+                                    </h5>
+                                    <h2 className="font-bold text-6xl leading-tight mb-8">
+                                        {slide.title}
+                                    </h2>
+                                    <p className="text-xl mb-8 max-w-md">
+                                        {slide.description}
+                                    </p>
+                                    <div className="flex flex-row items-center justify-start gap-8">
+                                        <span className="text-3xl font-bold">
+                                            ${slide.price}
+                                        </span>
+                                        <button className="bg-[#2DC071] hover:bg-[#25a35f] text-white font-bold text-base px-10 py-4 rounded transition-colors">
                                             ADD TO CART
                                         </button>
                                     </div>
                                 </div>
 
-                                {/* Right Image */}
-                                <div className="relative order-1 lg:order-2 flex items-end justify-center lg:justify-end pt-12 lg:pt-0">
-                                    <div className="w-full max-w-md lg:max-w-lg">
+                                {/* Image - Right on Desktop */}
+                                <div className="relative flex items-center justify-end">
+                                    <div className="w-full max-w-lg">
                                         <img 
                                             src={slide.image} 
                                             alt={slide.title}

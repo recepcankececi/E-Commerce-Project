@@ -14,7 +14,6 @@ const HomePage = () => {
             <VitaClassicCarousel />
             <NeuralUniverse />
             <FeaturedPosts />
-            {/* Diğer home page bölümleri buraya eklenecek */}
         </div>
     );
 };
