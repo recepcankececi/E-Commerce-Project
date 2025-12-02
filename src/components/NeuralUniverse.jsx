@@ -1,4 +1,4 @@
-﻿const NeuralUniverse = () => {
+const NeuralUniverse = () => {
     return (
         <section className="py-12 lg:py-0 bg-white">
             <div className="container mx-auto px-4">
@@ -6,8 +6,11 @@
                     {/* Image - Left on Desktop, Bottom on Mobile */}
                     <div className="order-2 lg:order-1 flex justify-center lg:justify-start">
                         <div className="relative w-full max-w-md lg:max-w-lg">
-                            {/* Image placeholder - gerçek görselde buraya img tag gelecek */}
-                            <div className="aspect-[3/4] lg:aspect-auto lg:h-[600px] bg-gradient-to-br from-gray-300 to-gray-400 rounded-lg lg:rounded-none" />
+                            <img 
+                                src="/images/neural-universe.png" 
+                                alt="Part of the Neural Universe"
+                                className="w-full h-full object-cover rounded-lg lg:rounded-none"
+                            />
                         </div>
                     </div>
 

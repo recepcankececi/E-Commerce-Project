@@ -23,9 +23,12 @@ const EditorsPick = () => {
                         
                         return (
                             <div key={category.id} className={`relative group overflow-hidden ${category.className}`}>
-                                <div className={`relative ${heightClass} lg:h-full bg-gray-200`}>
-                                    {/* Image placeholder - gerçek görselde buraya img tag gelecek */}
-                                    <div className="w-full h-full bg-gradient-to-br from-gray-300 to-gray-400" />
+                                <div className={`relative ${heightClass} lg:h-full`}>
+                                    <img 
+                                        src={category.image} 
+                                        alt={category.title}
+                                        className="w-full h-full object-cover"
+                                    />
 
                                     {/* Overlay */}
                                     <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />

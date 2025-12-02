@@ -1,11 +1,14 @@
-﻿const ProductCard = ({ product }) => {
+const ProductCard = ({ product }) => {
     return (
         <div className="group">
             {/* Product Image */}
             <div className="relative overflow-hidden bg-gray-200 mb-4">
                 <div className="aspect-[3/4] w-full">
-                    {/* Image placeholder - gerçek görselde buraya img tag gelecek */}
-                    <div className="w-full h-full bg-gradient-to-br from-gray-300 to-gray-400" />
+                    <img 
+                        src={product.image} 
+                        alt={product.title}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
                 </div>
             </div>
 

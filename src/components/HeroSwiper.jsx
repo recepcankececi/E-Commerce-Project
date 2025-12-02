@@ -24,7 +24,7 @@ const HeroSwiper = () => {
     }, []);
 
     return (
-        <div className="relative w-full h-[calc(100vh-64px)] lg:h-[calc(100vh-112px)] bg-gradient-to-r from-cyan-400 to-cyan-500 overflow-hidden">
+        <div className="relative w-full h-[calc(100vh-64px)] lg:h-[calc(100vh-112px)] overflow-hidden">
             {/* Slides */}
             <div className="relative h-full">
                 {slides.map((slide, index) => (
@@ -34,31 +34,35 @@ const HeroSwiper = () => {
                             index === currentSlide ? 'opacity-100' : 'opacity-0'
                         }`}
                     >
-                        <div className="container mx-auto px-4 h-full">
-                            <div className="grid lg:grid-cols-2 gap-8 h-full items-center">
-                                {/* Left Content */}
-                                <div className="flex flex-col justify-center text-white space-y-6 lg:space-y-8 pt-12 lg:pt-0">
-                                    <h5 className="font-bold text-base lg:text-lg tracking-wide">
-                                        {slide.season}
-                                    </h5>
-                                    <h1 className="font-bold text-4xl lg:text-6xl leading-tight lg:leading-tight">
-                                        {slide.title}
-                                    </h1>
-                                    <p className="text-lg lg:text-xl max-w-md">
-                                        {slide.description}
-                                    </p>
-                                    <div className="pt-2">
-                                        <button className="bg-[#2DC071] hover:bg-[#25a35f] text-white font-bold text-sm lg:text-base px-8 lg:px-10 py-3 lg:py-4 rounded transition-colors">
-                                            SHOP NOW
-                                        </button>
-                                    </div>
-                                </div>
+                        {/* Background Image */}
+                        <div className="absolute inset-0 bg-gradient-to-r from-[#1CB5E0] to-[#00D4FF]">
+                            <img 
+                                src={slide.image} 
+                                alt={slide.title}
+                                className="w-full h-full object-cover object-right"
+                            />
+                        </div>
 
-                                {/* Right Image - Desktop Only */}
-                                <div className="hidden lg:flex items-center justify-end">
-                                    <div className="w-full max-w-lg">
-                                        {/* Image placeholder - gerçek görselde buraya img tag gelecek */}
-                                        <div className="aspect-square bg-gradient-to-br from-transparent to-white/10 rounded-lg" />
+                        {/* Content Overlay */}
+                        <div className="relative h-full">
+                            <div className="container mx-auto px-4 h-full">
+                                <div className="flex items-center h-full">
+                                    {/* Content - Centered on Mobile, Left on Desktop */}
+                                    <div className="flex flex-col justify-center text-white space-y-6 lg:space-y-8 text-center lg:text-left max-w-xl lg:max-w-lg mx-auto lg:mx-0">
+                                        <h5 className="font-bold text-base lg:text-lg tracking-wide">
+                                            {slide.season}
+                                        </h5>
+                                        <h1 className="font-bold text-4xl lg:text-6xl leading-tight lg:leading-tight">
+                                            {slide.title}
+                                        </h1>
+                                        <p className="text-lg lg:text-xl">
+                                            {slide.description}
+                                        </p>
+                                        <div className="pt-2">
+                                            <button className="bg-[#2DC071] hover:bg-[#25a35f] text-white font-bold text-sm lg:text-base px-8 lg:px-10 py-3 lg:py-4 rounded transition-colors">
+                                                SHOP NOW
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

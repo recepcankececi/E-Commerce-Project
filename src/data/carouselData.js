@@ -4,7 +4,7 @@ export const heroSlides = [
         season: 'SUMMER 2020',
         title: 'NEW COLLECTION',
         description: 'We know how large objects will act, but things on a small scale.',
-        image: '/images/hero-1.jpg',
+        image: '/images/hero-1.png',
         cta: {
             text: 'SHOP NOW',
             link: '/shop'
@@ -15,7 +15,7 @@ export const heroSlides = [
         season: 'SUMMER 2020',
         title: 'NEW COLLECTION',
         description: 'We know how large objects will act, but things on a small scale.',
-        image: '/images/hero-2.jpg',
+        image: '/images/hero-1.png',
         cta: {
             text: 'SHOP NOW',
             link: '/shop'
@@ -30,7 +30,7 @@ export const vitaClassicSlides = [
         title: 'Vita Classic Product',
         description: 'We know how large objects will act. We know how are objects will act. We know',
         price: 16.48,
-        image: '/images/vita-classic-1.jpg',
+        image: '/images/vita-classic-1.png',
         cta: {
             text: 'ADD TO CART',
             link: '#'
@@ -42,7 +42,7 @@ export const vitaClassicSlides = [
         title: 'Vita Classic Product',
         description: 'We know how large objects will act, but things on a small scale.',
         price: 16.48,
-        image: '/images/vita-classic-2.jpg',
+        image: '/images/vita-classic-1.png',
         cta: {
             text: 'ADD TO CART',
             link: '#'

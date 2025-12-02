@@ -1,12 +1,16 @@
-﻿import { Clock, MessageSquare, ChevronRight } from 'lucide-react';
+import { Clock, MessageSquare, ChevronRight } from 'lucide-react';
 
 const BlogPostCard = ({ post }) => {
     return (
         <div className="bg-white shadow-sm hover:shadow-lg transition-shadow">
             {/* Post Image */}
             <div className="relative overflow-hidden">
-                <div className="aspect-[4/3] w-full bg-gradient-to-br from-gray-300 to-gray-400">
-                    {/* Image placeholder - gerçek görselde buraya img tag gelecek */}
+                <div className="aspect-[4/3] w-full">
+                    <img 
+                        src={post.image} 
+                        alt={post.title}
+                        className="w-full h-full object-cover"
+                    />
                 </div>
                 {/* NEW Badge */}
                 {post.isNew && (

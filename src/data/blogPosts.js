@@ -7,7 +7,7 @@ export const blogPosts = [
         date: '22 April 2021',
         comments: 10,
         isNew: true,
-        image: '/images/blog-1.jpg'
+        image: '/images/post-1.jpg'
     },
     {
         id: 2,
@@ -17,7 +17,7 @@ export const blogPosts = [
         date: '22 April 2021',
         comments: 10,
         isNew: true,
-        image: '/images/blog-2.jpg'
+        image: '/images/post-2.jpg'
     },
     {
         id: 3,
@@ -27,6 +27,6 @@ export const blogPosts = [
         date: '22 April 2021',
         comments: 10,
         isNew: true,
-        image: '/images/blog-3.jpg'
+        image: '/images/post-3.jpg'
     }
 ];

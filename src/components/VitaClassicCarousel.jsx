@@ -59,8 +59,11 @@ const VitaClassicCarousel = () => {
                                 {/* Right Image */}
                                 <div className="relative order-1 lg:order-2 flex items-end justify-center lg:justify-end pt-12 lg:pt-0">
                                     <div className="w-full max-w-md lg:max-w-lg">
-                                        {/* Image placeholder - gerçek görselde buraya img tag gelecek */}
-                                        <div className="aspect-[3/4] bg-gradient-to-br from-transparent to-white/10" />
+                                        <img 
+                                            src={slide.image} 
+                                            alt={slide.title}
+                                            className="w-full h-full object-contain"
+                                        />
                                     </div>
                                 </div>
                             </div>
