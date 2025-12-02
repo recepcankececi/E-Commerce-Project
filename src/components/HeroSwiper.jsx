@@ -39,7 +39,7 @@ const HeroSwiper = () => {
                             <img 
                                 src={slide.image} 
                                 alt={slide.title}
-                                className="w-full h-full object-cover object-right"
+                                className="w-full h-full object-cover object-center"
                             />
                         </div>
 
@@ -48,18 +48,18 @@ const HeroSwiper = () => {
                             <div className="container mx-auto px-4 h-full">
                                 <div className="flex items-center h-full">
                                     {/* Content - Centered on Mobile, Left on Desktop */}
-                                    <div className="flex flex-col justify-center text-white space-y-6 lg:space-y-8 text-center lg:text-left max-w-xl lg:max-w-lg mx-auto lg:mx-0">
-                                        <h5 className="font-bold text-base lg:text-lg tracking-wide">
+                                    <div className="flex flex-col justify-center text-white space-y-12 lg:space-y-20 text-center lg:text-left max-w-xl lg:max-w-2xl mx-auto lg:mx-0 px-8 lg:px-0">
+                                        <h5 className="font-bold text-xl lg:text-2xl tracking-wide">
                                             {slide.season}
                                         </h5>
-                                        <h1 className="font-bold text-4xl lg:text-6xl leading-tight lg:leading-tight">
+                                        <h1 className="font-bold text-5xl lg:text-7xl leading-tight lg:leading-tight">
                                             {slide.title}
                                         </h1>
-                                        <p className="text-lg lg:text-xl">
+                                        <p className="text-xl lg:text-2xl leading-relaxed">
                                             {slide.description}
                                         </p>
-                                        <div className="pt-2">
-                                            <button className="bg-[#2DC071] hover:bg-[#25a35f] text-white font-bold text-sm lg:text-base px-8 lg:px-10 py-3 lg:py-4 rounded transition-colors">
+                                        <div className="pt-12">
+                                            <button className="bg-[#2DC071] hover:bg-[#25a35f] text-white font-bold text-lg lg:text-xl px-16 lg:px-20 py-5 lg:py-6 rounded transition-colors">
                                                 SHOP NOW
                                             </button>
                                         </div>
