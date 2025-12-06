@@ -94,5 +94,53 @@ export const products = [
         category: 'kids',
         rating: 4.4,
         stock: 20
+    },
+    {
+        id: 9,
+        title: 'Graphic Design',
+        department: 'English Department',
+        originalPrice: 16.48,
+        price: 6.48,
+        colors: ['#23A6F0', '#23856D', '#E77C40', '#252B42'],
+        image: '/images/product-9.jpg',
+        category: 'cloths',
+        rating: 4.1,
+        stock: 14
+    },
+    {
+        id: 10,
+        title: 'Graphic Design',
+        department: 'English Department',
+        originalPrice: 16.48,
+        price: 6.48,
+        colors: ['#23A6F0', '#23856D', '#E77C40', '#252B42'],
+        image: '/images/product-10.jpg',
+        category: 'women',
+        rating: 4.9,
+        stock: 10
+    },
+    {
+        id: 11,
+        title: 'Graphic Design',
+        department: 'English Department',
+        originalPrice: 16.48,
+        price: 6.48,
+        colors: ['#23A6F0', '#23856D', '#E77C40', '#252B42'],
+        image: '/images/product-11.jpg',
+        category: 'men',
+        rating: 4.5,
+        stock: 16
+    },
+    {
+        id: 12,
+        title: 'Graphic Design',
+        department: 'English Department',
+        originalPrice: 16.48,
+        price: 6.48,
+        colors: ['#23A6F0', '#23856D', '#E77C40', '#252B42'],
+        image: '/images/product-12.jpg',
+        category: 'accessories',
+        rating: 4.3,
+        stock: 28
     }
 ];

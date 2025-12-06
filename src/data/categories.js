@@ -30,5 +30,13 @@ export const categories = [
         slug: 'kids',
         itemCount: 5,
         gridClass: 'lg:col-span-1 lg:row-span-1'
+    },
+    {
+        id: 5,
+        title: 'CLOTHS',
+        image: '/images/category-cloths.jpg',
+        slug: 'cloths',
+        itemCount: 5,
+        gridClass: 'lg:col-span-1 lg:row-span-1'
     }
 ];

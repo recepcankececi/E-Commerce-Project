@@ -1,0 +1,65 @@
+import { Link } from 'react-router-dom';
+import { ChevronRight } from 'lucide-react';
+import ShopCategoryCard from '../components/ShopCategoryCard';
+import ShopFilters from '../components/ShopFilters';
+import ProductCard from '../components/ProductCard';
+import { categories } from '../data/categories';
+import { products } from '../data/products';
+
+const ShopPage = () => {
+  return (
+    <div className="bg-white">
+      <div className="bg-[#FAFAFA]">
+        <div className="container mx-auto px-4 py-6">
+          <div className="flex flex-col items-center md:flex-row md:items-center md:justify-between gap-4">
+            <h2 className="text-2xl font-bold text-[#252B42]">Shop</h2>
+            
+            <nav className="flex items-center justify-center gap-2 text-sm">
+              <Link to="/" className="font-bold text-[#252B42] hover:text-[#23A6F0]">
+                Home
+              </Link>
+              <ChevronRight size={16} className="text-[#BDBDBD]" />
+              <span className="font-bold text-[#BDBDBD]">Shop</span>
+            </nav>
+          </div>
+        </div>
+      </div>
+
+      <div className="container mx-auto px-4 py-6">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-12">
+          {categories.map((category) => (
+            <ShopCategoryCard key={category.id} category={category} />
+          ))}
+        </div>
+
+        <ShopFilters />
+
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12 mb-12">
+          {products.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+
+        <div className="flex justify-center items-center gap-2 pb-12">
+          <button className="px-5 py-6 border border-[#BDBDBD] text-[#BDBDBD] font-bold text-sm rounded hover:bg-gray-50 transition-colors">
+            First
+          </button>
+          <button className="px-4 py-6 border border-[#E9E9E9] text-[#23A6F0] font-bold text-sm rounded hover:bg-gray-50 transition-colors">
+            1
+          </button>
+          <button className="px-4 py-6 bg-[#23A6F0] text-white font-bold text-sm rounded hover:bg-[#1a8cd8] transition-colors">
+            2
+          </button>
+          <button className="px-4 py-6 border border-[#E9E9E9] text-[#23A6F0] font-bold text-sm rounded hover:bg-gray-50 transition-colors">
+            3
+          </button>
+          <button className="px-5 py-6 border border-[#E9E9E9] text-[#23A6F0] font-bold text-sm rounded hover:bg-gray-50 transition-colors">
+            Next
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default ShopPage;

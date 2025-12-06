@@ -1,4 +1,5 @@
-﻿import { useState } from 'react';
+import { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { ShoppingCart, Heart, Search, User, Menu, X, Phone, Mail, Instagram, Youtube, Facebook, Twitter } from 'lucide-react';
 
 const Header = () => {
@@ -48,22 +49,28 @@ const Header = () => {
                 <div className="container mx-auto px-4">
                     <div className="flex justify-between items-center h-16 lg:h-20">
                         {/* Logo */}
-                        <div className="text-2xl font-bold text-[#252B42]">
+                        <Link to="/" className="text-2xl font-bold text-[#252B42]">
                             Bandage
-                        </div>
+                        </Link>
 
                         {/* Desktop Navigation */}
                         <div className="hidden lg:flex items-center gap-5">
-                            <a href="#" className="text-[#737373] hover:text-[#252B42] font-bold text-sm">
+                            <Link to="/" className="text-[#737373] hover:text-[#252B42] font-bold text-sm">
                                 Home
-                            </a>
+                            </Link>
                             <div className="relative">
-                                <button
-                                    onClick={() => setIsShopOpen(!isShopOpen)}
+                                <Link
+                                    to="/shop"
                                     className="flex items-center gap-1 text-[#737373] hover:text-[#252B42] font-bold text-sm"
+                                    onClick={() => setIsShopOpen(false)}
                                 >
                                     Shop
-                                    <svg className={`w-3 h-3 transition-transform ${isShopOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                </Link>
+                                <button
+                                    onClick={() => setIsShopOpen(!isShopOpen)}
+                                    className="absolute -right-4 top-0 p-1"
+                                >
+                                    <svg className={`w-3 h-3 transition-transform text-[#737373] ${isShopOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
                                     </svg>
                                 </button>
@@ -73,48 +80,48 @@ const Header = () => {
                                             <div>
                                                 <h3 className="font-bold text-[#252B42] mb-4">Kadın</h3>
                                                 <ul className="space-y-3">
-                                                    <li><a href="#" className="text-[#737373] hover:text-[#252B42]">Bags</a></li>
-                                                    <li><a href="#" className="text-[#737373] hover:text-[#252B42]">Belts</a></li>
-                                                    <li><a href="#" className="text-[#737373] hover:text-[#252B42]">Cosmetics</a></li>
-                                                    <li><a href="#" className="text-[#737373] hover:text-[#252B42]">Bags</a></li>
-                                                    <li><a href="#" className="text-[#737373] hover:text-[#252B42]">Hats</a></li>
+                                                    <li><Link to="/shop/bags" className="text-[#737373] hover:text-[#252B42]">Bags</Link></li>
+                                                    <li><Link to="/shop/belts" className="text-[#737373] hover:text-[#252B42]">Belts</Link></li>
+                                                    <li><Link to="/shop/cosmetics" className="text-[#737373] hover:text-[#252B42]">Cosmetics</Link></li>
+                                                    <li><Link to="/shop/bags" className="text-[#737373] hover:text-[#252B42]">Bags</Link></li>
+                                                    <li><Link to="/shop/hats" className="text-[#737373] hover:text-[#252B42]">Hats</Link></li>
                                                 </ul>
                                             </div>
                                             <div>
                                                 <h3 className="font-bold text-[#252B42] mb-4">Erkek</h3>
                                                 <ul className="space-y-3">
-                                                    <li><a href="#" className="text-[#737373] hover:text-[#252B42]">Bags</a></li>
-                                                    <li><a href="#" className="text-[#737373] hover:text-[#252B42]">Belts</a></li>
-                                                    <li><a href="#" className="text-[#737373] hover:text-[#252B42]">Cosmetics</a></li>
-                                                    <li><a href="#" className="text-[#737373] hover:text-[#252B42]">Bags</a></li>
-                                                    <li><a href="#" className="text-[#737373] hover:text-[#252B42]">Hats</a></li>
+                                                    <li><Link to="/shop/bags" className="text-[#737373] hover:text-[#252B42]">Bags</Link></li>
+                                                    <li><Link to="/shop/belts" className="text-[#737373] hover:text-[#252B42]">Belts</Link></li>
+                                                    <li><Link to="/shop/cosmetics" className="text-[#737373] hover:text-[#252B42]">Cosmetics</Link></li>
+                                                    <li><Link to="/shop/bags" className="text-[#737373] hover:text-[#252B42]">Bags</Link></li>
+                                                    <li><Link to="/shop/hats" className="text-[#737373] hover:text-[#252B42]">Hats</Link></li>
                                                 </ul>
                                             </div>
                                         </div>
                                     </div>
                                 )}
                             </div>
-                            <a href="#" className="text-[#737373] hover:text-[#252B42] font-bold text-sm">
+                            <Link to="/about" className="text-[#737373] hover:text-[#252B42] font-bold text-sm">
                                 About
-                            </a>
-                            <a href="#" className="text-[#737373] hover:text-[#252B42] font-bold text-sm">
+                            </Link>
+                            <Link to="/blog" className="text-[#737373] hover:text-[#252B42] font-bold text-sm">
                                 Blog
-                            </a>
-                            <a href="#" className="text-[#737373] hover:text-[#252B42] font-bold text-sm">
+                            </Link>
+                            <Link to="/contact" className="text-[#737373] hover:text-[#252B42] font-bold text-sm">
                                 Contact
-                            </a>
-                            <a href="#" className="text-[#737373] hover:text-[#252B42] font-bold text-sm">
+                            </Link>
+                            <Link to="/pages" className="text-[#737373] hover:text-[#252B42] font-bold text-sm">
                                 Pages
-                            </a>
+                            </Link>
                         </div>
 
                         {/* Right Side Actions */}
                         <div className="flex items-center gap-4 lg:gap-6">
                             {/* Desktop Login */}
-                            <a href="#" className="hidden lg:flex items-center gap-1 text-[#23A6F0] font-bold text-sm">
+                            <Link to="/login" className="hidden lg:flex items-center gap-1 text-[#23A6F0] font-bold text-sm">
                                 <User size={16} />
                                 <span>Login / Register</span>
-                            </a>
+                            </Link>
 
                             {/* Search Icon */}
                             <button className="text-[#23A6F0] hover:opacity-80">
@@ -154,18 +161,18 @@ const Header = () => {
                     <div className="lg:hidden bg-white border-t">
                         <div className="container mx-auto px-4 py-6">
                             <div className="flex flex-col items-center gap-6 text-center">
-                                <a href="#" className="text-[#737373] hover:text-[#252B42] font-normal text-xl">
+                                <Link to="/" className="text-[#737373] hover:text-[#252B42] font-normal text-xl">
                                     Home
-                                </a>
-                                <a href="#" className="text-[#737373] hover:text-[#252B42] font-normal text-xl">
-                                    Product
-                                </a>
-                                <a href="#" className="text-[#737373] hover:text-[#252B42] font-normal text-xl">
-                                    Pricing
-                                </a>
-                                <a href="#" className="text-[#737373] hover:text-[#252B42] font-normal text-xl">
+                                </Link>
+                                <Link to="/shop" className="text-[#737373] hover:text-[#252B42] font-normal text-xl">
+                                    Shop
+                                </Link>
+                                <Link to="/about" className="text-[#737373] hover:text-[#252B42] font-normal text-xl">
+                                    About
+                                </Link>
+                                <Link to="/contact" className="text-[#737373] hover:text-[#252B42] font-normal text-xl">
                                     Contact
-                                </a>
+                                </Link>
                             </div>
                         </div>
                     </div>
