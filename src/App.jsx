@@ -5,10 +5,12 @@ import Footer from './layout/Footer';
 import HomePage from './pages/HomePage';
 import ShopPage from './pages/ShopPage';
 import ProductDetailPage from './pages/ProductDetailPage';
+import ScrollToTop from './components/ScrollToTop';
 
 function App() {
     return (
         <Router>
+            <ScrollToTop />
             <div className="min-h-screen bg-white">
                 <Header />
                 <PageContent>
