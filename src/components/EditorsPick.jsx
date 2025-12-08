@@ -16,7 +16,7 @@ const EditorsPick = () => {
 
                 {/* Categories Grid */}
                 <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 lg:gap-4 lg:grid-rows-2">
-                    {categories.map((category) => {
+                    {categories.slice(0, 4).map((category) => {
                         const heightClass = category.id === 1 || category.id === 2 ? 'h-[500px]' : 'h-[242px]';
                         
                         return (

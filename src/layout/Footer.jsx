@@ -5,8 +5,8 @@ const Footer = () => {
         <footer className="bg-white">
             {/* Top Section - Logo & Social - Mobile Only */}
             <div className="border-b border-gray-200 lg:hidden">
-                <div className="container mx-auto px-4 py-8">
-                    <div className="flex flex-col items-center gap-6">
+                <div className="container mx-auto px-8 py-8">
+                    <div className="flex flex-col items-start gap-6">
                         {/* Logo */}
                         <h3 className="text-2xl font-bold text-[#252B42]">
                             Bandage
@@ -30,7 +30,7 @@ const Footer = () => {
 
             {/* Desktop Top Section - Logo & Social on same line as links */}
             <div className="hidden lg:block border-b border-gray-200">
-                <div className="container mx-auto px-4 py-10">
+                <div className="container mx-auto px-8 py-10">
                     <div className="flex justify-between items-center">
                         <h3 className="text-2xl font-bold text-[#252B42]">
                             Bandage
@@ -51,7 +51,7 @@ const Footer = () => {
             </div>
 
             {/* Main Footer Content */}
-            <div className="container mx-auto px-4 py-12 lg:py-16">
+            <div className="container mx-auto px-8 py-12 lg:py-16">
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-8">
                     {/* Company Info */}
                     <div>

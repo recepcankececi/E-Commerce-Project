@@ -10,7 +10,7 @@ const ShopPage = () => {
   return (
     <div className="bg-white">
       <div className="bg-[#FAFAFA]">
-        <div className="container mx-auto px-4 py-6">
+        <div className="container mx-auto px-8 py-6">
           <div className="flex flex-col items-center md:flex-row md:items-center md:justify-between gap-4">
             <h2 className="text-2xl font-bold text-[#252B42]">Shop</h2>
             
@@ -25,7 +25,7 @@ const ShopPage = () => {
         </div>
       </div>
 
-      <div className="container mx-auto px-4 py-6">
+      <div className="container mx-auto px-8 py-6">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-4 mb-12">
           {categories.map((category) => (
             <ShopCategoryCard key={category.id} category={category} />

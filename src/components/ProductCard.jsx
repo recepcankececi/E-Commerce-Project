@@ -1,6 +1,8 @@
+import { Link } from 'react-router-dom';
+
 const ProductCard = ({ product }) => {
     return (
-        <div className="group">
+        <Link to={`/product/${product.id}`} className="group block">
             {/* Product Image */}
             <div className="relative overflow-hidden bg-gray-200 mb-4">
                 <div className="aspect-[3/4] w-full">
@@ -46,7 +48,7 @@ const ProductCard = ({ product }) => {
                     ))}
                 </div>
             </div>
-        </div>
+        </Link>
     );
 };
 
