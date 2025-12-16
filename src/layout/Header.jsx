@@ -104,6 +104,9 @@ const Header = () => {
                             <Link to="/about" className="text-[#737373] hover:text-[#252B42] font-bold text-sm">
                                 About
                             </Link>
+                            <Link to="/team" className="text-[#737373] hover:text-[#252B42] font-bold text-sm">
+                                Team
+                            </Link>
                             <Link to="/blog" className="text-[#737373] hover:text-[#252B42] font-bold text-sm">
                                 Blog
                             </Link>
@@ -169,6 +172,9 @@ const Header = () => {
                                 </Link>
                                 <Link to="/about" className="text-[#737373] hover:text-[#252B42] font-normal text-xl">
                                     About
+                                </Link>
+                                <Link to="/team" className="text-[#737373] hover:text-[#252B42] font-normal text-xl">
+                                    Team
                                 </Link>
                                 <Link to="/contact" className="text-[#737373] hover:text-[#252B42] font-normal text-xl">
                                     Contact

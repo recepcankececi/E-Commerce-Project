@@ -6,6 +6,7 @@ import HomePage from './pages/HomePage';
 import ShopPage from './pages/ShopPage';
 import ProductDetailPage from './pages/ProductDetailPage';
 import ContactPage from './pages/ContactPage';
+import TeamPage from './pages/TeamPage';
 import ScrollToTop from './components/ScrollToTop';
 
 function App() {
@@ -20,6 +21,7 @@ function App() {
                         <Route path="/shop" component={ShopPage} />
                         <Route path="/product/:productId" component={ProductDetailPage} />
                         <Route path="/contact" component={ContactPage} />
+                        <Route path="/team" component={TeamPage} />
                     </Switch>
                 </PageContent>
                 <Footer />
