@@ -5,6 +5,7 @@ import Footer from './layout/Footer';
 import HomePage from './pages/HomePage';
 import ShopPage from './pages/ShopPage';
 import ProductDetailPage from './pages/ProductDetailPage';
+import ContactPage from './pages/ContactPage';
 import ScrollToTop from './components/ScrollToTop';
 
 function App() {
@@ -18,6 +19,7 @@ function App() {
                         <Route exact path="/" component={HomePage} />
                         <Route path="/shop" component={ShopPage} />
                         <Route path="/product/:productId" component={ProductDetailPage} />
+                        <Route path="/contact" component={ContactPage} />
                     </Switch>
                 </PageContent>
                 <Footer />
