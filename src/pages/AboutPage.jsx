@@ -159,28 +159,28 @@ const AboutPage = () => {
             </section>
 
             {/* Work With Us Section */}
-            <section className="bg-[#2A7CC7] overflow-hidden">
-                <div className="grid grid-cols-1 lg:grid-cols-2">
-                    <div className="flex items-center justify-center lg:justify-start px-16 lg:px-24 py-16 lg:py-24">
-                        <div className="max-w-md text-center lg:text-left">
+            <section className="bg-[#2A7CC7] py-12 lg:py-16 px-4 lg:px-8">
+                <div className="max-w-7xl mx-auto px-8">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                        <div className="text-center lg:text-left">
                             <p className="text-sm font-bold text-white mb-4">WORK WITH US</p>
                             <h2 className="text-3xl md:text-4xl font-bold text-white mb-6">
                                 Now Let's grow Yours
                             </h2>
-                            <p className="text-sm text-white mb-6">
+                            <p className="text-sm text-white mb-6 max-w-md mx-auto lg:mx-0">
                                 The gradual accumulation of information about atomic and small-scale behavior during the first quarter of the 20th
                             </p>
                             <button className="border-2 border-white text-white font-bold py-3 px-8 rounded hover:bg-white hover:text-[#2A7CC7] transition-colors">
                                 Button
                             </button>
                         </div>
-                    </div>
-                    <div className="hidden lg:block relative lg:h-auto lg:ml-auto">
-                        <img 
-                            src="/images/about/work-with-us.jpg" 
-                            alt="Work with us"
-                            className="w-full h-full object-cover object-right"
-                        />
+                        <div className="hidden lg:block">
+                            <img 
+                                src="/images/about/work-with-us.jpg" 
+                                alt="Work with us"
+                                className="w-full h-auto rounded-lg"
+                            />
+                        </div>
                     </div>
                 </div>
             </section>
