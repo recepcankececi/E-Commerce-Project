@@ -1,16 +1,19 @@
 import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { ShoppingCart, Heart, Search, User, Menu, X, Phone, Mail, Instagram, Youtube, Facebook, Twitter, LogOut } from 'lucide-react';
+import { ShoppingCart, Heart, Search, User, Menu, X, Phone, Mail, Instagram, Youtube, Facebook, Twitter, LogOut, Trash2 } from 'lucide-react';
 import { logoutUser } from '../store/actions/clientActions';
+import { removeFromCart } from '../store/actions/shoppingCartActions';
 import { getGravatarUrl } from '../utils/gravatar';
 
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isShopOpen, setIsShopOpen] = useState(false);
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+    const [isCartOpen, setIsCartOpen] = useState(false);
     const { user } = useSelector((state) => state.client);
     const { categories } = useSelector((state) => state.product);
+    const { cart } = useSelector((state) => state.shoppingCart);
     const dispatch = useDispatch();
 
     const handleLogout = () => {
@@ -23,6 +26,18 @@ const Header = () => {
         const erkek = categories.filter(cat => cat.gender === 'e');
         return { kadin, erkek };
     }, [categories]);
+
+    const cartItemCount = useMemo(() => {
+        return cart.reduce((total, item) => total + item.count, 0);
+    }, [cart]);
+
+    const cartTotal = useMemo(() => {
+        return cart.reduce((total, item) => total + (item.product.price * item.count), 0);
+    }, [cart]);
+
+    const handleRemoveFromCart = (productId) => {
+        dispatch(removeFromCart(productId));
+    };
 
     return (
         <header>
@@ -204,10 +219,76 @@ const Header = () => {
                             </button>
 
                             {/* Cart - Desktop */}
-                            <button className="hidden lg:flex items-center gap-1 text-[#23A6F0] hover:opacity-80">
-                                <ShoppingCart size={20} />
-                                <span className="text-xs font-medium">1</span>
-                            </button>
+                            <div className="hidden lg:block relative">
+                                <button 
+                                    onClick={() => setIsCartOpen(!isCartOpen)}
+                                    className="flex items-center gap-1 text-[#23A6F0] hover:opacity-80"
+                                >
+                                    <ShoppingCart size={20} />
+                                    {cartItemCount > 0 && (
+                                        <span className="text-xs font-medium">{cartItemCount}</span>
+                                    )}
+                                </button>
+                                
+                                {isCartOpen && (
+                                    <div className="absolute right-0 top-full mt-2 bg-white shadow-lg rounded-sm w-80 z-50 max-h-96 overflow-y-auto">
+                                        {cart.length === 0 ? (
+                                            <div className="p-6 text-center text-[#737373]">
+                                                Your cart is empty
+                                            </div>
+                                        ) : (
+                                            <>
+                                                <div className="p-4 border-b">
+                                                    <h3 className="font-bold text-[#252B42]">Shopping Cart ({cartItemCount})</h3>
+                                                </div>
+                                                <div className="divide-y">
+                                                    {cart.map((item) => (
+                                                        <div key={item.product.id} className="p-4 flex gap-3">
+                                                            <img 
+                                                                src={item.product.images?.[0]?.url || item.product.image} 
+                                                                alt={item.product.name || item.product.title}
+                                                                className="w-16 h-16 object-cover rounded"
+                                                            />
+                                                            <div className="flex-1 min-w-0">
+                                                                <h4 className="text-sm font-bold text-[#252B42] truncate">
+                                                                    {item.product.name || item.product.title}
+                                                                </h4>
+                                                                <p className="text-xs text-[#737373] mt-1">
+                                                                    Quantity: {item.count}
+                                                                </p>
+                                                                <p className="text-sm font-bold text-[#23856D] mt-1">
+                                                                    ${(item.product.price * item.count).toFixed(2)}
+                                                                </p>
+                                                            </div>
+                                                            <button
+                                                                onClick={() => handleRemoveFromCart(item.product.id)}
+                                                                className="text-red-500 hover:text-red-700"
+                                                            >
+                                                                <Trash2 size={16} />
+                                                            </button>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                                <div className="p-4 border-t">
+                                                    <div className="flex justify-between items-center mb-3">
+                                                        <span className="font-bold text-[#252B42]">Total:</span>
+                                                        <span className="font-bold text-[#23856D] text-lg">
+                                                            ${cartTotal.toFixed(2)}
+                                                        </span>
+                                                    </div>
+                                                    <Link
+                                                        to="/cart"
+                                                        onClick={() => setIsCartOpen(false)}
+                                                        className="block w-full px-4 py-2 bg-[#23A6F0] text-white text-center text-sm font-bold rounded hover:bg-[#1a8cd8] transition-colors"
+                                                    >
+                                                        View Cart
+                                                    </Link>
+                                                </div>
+                                            </>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
 
                             {/* Wishlist - Desktop */}
                             <button className="hidden lg:flex items-center gap-1 text-[#23A6F0] hover:opacity-80">

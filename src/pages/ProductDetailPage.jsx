@@ -3,6 +3,8 @@ import { Link, useParams, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { ChevronRight, ChevronLeft, Star, Heart, ShoppingCart, Eye, ArrowLeft } from 'lucide-react';
 import { fetchProductById } from '../store/actions/productActions';
+import { addToCart } from '../store/actions/shoppingCartActions';
+import { toast } from 'react-toastify';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 const ProductDetailPage = () => {
@@ -19,6 +21,13 @@ const ProductDetailPage = () => {
       dispatch(fetchProductById(productId));
     }
   }, [dispatch, productId]);
+
+  const handleAddToCart = () => {
+    if (product) {
+      dispatch(addToCart(product));
+      toast.success(`${product.name || product.title} added to cart!`);
+    }
+  };
 
   if (fetchState === 'FETCHING') {
     return (
@@ -165,13 +174,19 @@ const ProductDetailPage = () => {
             )}
 
             <div className="flex items-center gap-3">
-              <button className="px-5 py-2.5 bg-[#23A6F0] text-white text-sm font-bold rounded hover:bg-[#1a8cd8] transition-colors">
-                Select Options
+              <button 
+                onClick={handleAddToCart}
+                className="px-5 py-2.5 bg-[#23A6F0] text-white text-sm font-bold rounded hover:bg-[#1a8cd8] transition-colors"
+              >
+                Add to Cart
               </button>
               <button className="p-2.5 border border-gray-300 rounded-full hover:bg-gray-50 transition-colors">
                 <Heart size={20} className="text-[#252B42]" />
               </button>
-              <button className="p-2.5 border border-gray-300 rounded-full hover:bg-gray-50 transition-colors">
+              <button 
+                onClick={handleAddToCart}
+                className="p-2.5 border border-gray-300 rounded-full hover:bg-gray-50 transition-colors"
+              >
                 <ShoppingCart size={20} className="text-[#252B42]" />
               </button>
               <button className="p-2.5 border border-gray-300 rounded-full hover:bg-gray-50 transition-colors">
