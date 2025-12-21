@@ -7,11 +7,14 @@ import {
     SET_PAYMENT, 
     SET_ADDRESS 
 } from '../actions/shoppingCartActions';
+import { SET_ADDRESS_LIST, SET_ADDRESS_LOADING } from '../actions/addressActions';
 
 const initialState = {
     cart: [],
     payment: {},
     address: {},
+    addressList: [],
+    addressLoading: false,
 };
 
 const shoppingCartReducer = (state = initialState, action) => {
@@ -99,6 +102,16 @@ const shoppingCartReducer = (state = initialState, action) => {
             return {
                 ...state,
                 address: action.payload,
+            };
+        case SET_ADDRESS_LIST:
+            return {
+                ...state,
+                addressList: action.payload,
+            };
+        case SET_ADDRESS_LOADING:
+            return {
+                ...state,
+                addressLoading: action.payload,
             };
         default:
             return state;

@@ -13,6 +13,8 @@ import AboutPage from './pages/AboutPage';
 import SignUpPage from './pages/SignUpPage';
 import LoginPage from './pages/LoginPage';
 import ShoppingCartPage from './pages/ShoppingCartPage';
+import CreateOrderPage from './pages/CreateOrderPage';
+import ProtectedRoute from './components/ProtectedRoute';
 import ScrollToTop from './components/ScrollToTop';
 import { verifyToken } from './store/actions/clientActions';
 import { fetchCategories } from './store/actions/productActions';
@@ -34,6 +36,7 @@ function App() {
                     <Switch>
                         <Route exact path="/" component={HomePage} />
                         <Route path="/cart" component={ShoppingCartPage} />
+                        <ProtectedRoute path="/create-order" component={CreateOrderPage} />
                         <Route path="/shop/:gender/:categoryName/:categoryId/:productNameSlug/:productId" component={ProductDetailPage} />
                         <Route path="/shop/:gender/:categoryName/:categoryId" component={ShopPage} />
                         <Route path="/shop" component={ShopPage} />

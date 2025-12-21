@@ -256,12 +256,16 @@ const ShoppingCartPage = () => {
                                     </div>
                                 </div>
                                 
-                                <button
-                                    disabled={selectedCount === 0}
-                                    className="w-full px-6 py-3 bg-[#23A6F0] text-white font-bold rounded hover:bg-[#1a8cd8] transition-colors disabled:opacity-50 disabled:cursor-not-allowed mb-3"
+                                <Link
+                                    to="/create-order"
+                                    className={`block w-full px-6 py-3 bg-[#23A6F0] text-white text-center font-bold rounded transition-colors mb-3 ${
+                                        selectedCount === 0 
+                                            ? 'opacity-50 cursor-not-allowed pointer-events-none' 
+                                            : 'hover:bg-[#1a8cd8]'
+                                    }`}
                                 >
                                     Create Order
-                                </button>
+                                </Link>
                                 
                                 <Link
                                     to="/shop"
