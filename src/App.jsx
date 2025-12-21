@@ -14,6 +14,7 @@ import SignUpPage from './pages/SignUpPage';
 import LoginPage from './pages/LoginPage';
 import ShoppingCartPage from './pages/ShoppingCartPage';
 import CreateOrderPage from './pages/CreateOrderPage';
+import PreviousOrdersPage from './pages/PreviousOrdersPage';
 import ProtectedRoute from './components/ProtectedRoute';
 import ScrollToTop from './components/ScrollToTop';
 import { verifyToken } from './store/actions/clientActions';
@@ -37,6 +38,7 @@ function App() {
                         <Route exact path="/" component={HomePage} />
                         <Route path="/cart" component={ShoppingCartPage} />
                         <ProtectedRoute path="/create-order" component={CreateOrderPage} />
+                        <ProtectedRoute path="/orders" component={PreviousOrdersPage} />
                         <Route path="/shop/:gender/:categoryName/:categoryId/:productNameSlug/:productId" component={ProductDetailPage} />
                         <Route path="/shop/:gender/:categoryName/:categoryId" component={ShopPage} />
                         <Route path="/shop" component={ShopPage} />

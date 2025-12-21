@@ -9,6 +9,7 @@ import {
 } from '../actions/shoppingCartActions';
 import { SET_ADDRESS_LIST, SET_ADDRESS_LOADING } from '../actions/addressActions';
 import { SET_CARD_LIST, SET_CARD_LOADING } from '../actions/cardActions';
+import { SET_ORDERS, SET_ORDERS_LOADING } from '../actions/orderActions';
 
 const initialState = {
     cart: [],
@@ -18,6 +19,8 @@ const initialState = {
     addressLoading: false,
     cardList: [],
     cardLoading: false,
+    orders: [],
+    ordersLoading: false,
 };
 
 const shoppingCartReducer = (state = initialState, action) => {
@@ -125,6 +128,16 @@ const shoppingCartReducer = (state = initialState, action) => {
             return {
                 ...state,
                 cardLoading: action.payload,
+            };
+        case SET_ORDERS:
+            return {
+                ...state,
+                orders: action.payload,
+            };
+        case SET_ORDERS_LOADING:
+            return {
+                ...state,
+                ordersLoading: action.payload,
             };
         default:
             return state;

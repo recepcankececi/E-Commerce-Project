@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { ShoppingCart, Heart, Search, User, Menu, X, Phone, Mail, Instagram, Youtube, Facebook, Twitter, LogOut, Trash2 } from 'lucide-react';
+import { ShoppingCart, Heart, Search, User, Menu, X, Phone, Mail, Instagram, Youtube, Facebook, Twitter, LogOut, Trash2, Package } from 'lucide-react';
 import { logoutUser } from '../store/actions/clientActions';
 import { removeFromCart } from '../store/actions/shoppingCartActions';
 import { getGravatarUrl } from '../utils/gravatar';
@@ -191,6 +191,14 @@ const Header = () => {
                                                 <p className="font-bold text-sm text-[#252B42]">{user.name}</p>
                                                 <p className="text-xs text-[#737373]">{user.email}</p>
                                             </div>
+                                            <Link
+                                                to="/orders"
+                                                onClick={() => setIsUserMenuOpen(false)}
+                                                className="w-full px-4 py-2 text-left text-sm text-[#737373] hover:bg-gray-50 flex items-center gap-2"
+                                            >
+                                                <Package size={16} />
+                                                My Orders
+                                            </Link>
                                             <button
                                                 onClick={handleLogout}
                                                 className="w-full px-4 py-2 text-left text-sm text-[#737373] hover:bg-gray-50 flex items-center gap-2"
