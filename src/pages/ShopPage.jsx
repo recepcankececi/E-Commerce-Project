@@ -6,6 +6,7 @@ import ShopCategoryCard from '../components/ShopCategoryCard';
 import ShopFilters from '../components/ShopFilters';
 import ProductCard from '../components/ProductCard';
 import LoadingSpinner from '../components/LoadingSpinner';
+import Pagination from '../components/Pagination';
 import { fetchProducts } from '../store/actions/productActions';
 import { categories } from '../data/categories';
 
@@ -77,7 +78,7 @@ const ShopPage = () => {
         ) : (
           <>
             <div className="mb-4 text-sm text-gray-600">
-              Showing {productList.length} of {total} products
+              Showing {offset + 1}-{Math.min(offset + productList.length, total)} of {total} products
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12 mb-12">
               {productList.map((product) => (
@@ -87,23 +88,14 @@ const ShopPage = () => {
           </>
         )}
 
-        <div className="flex justify-center items-center gap-2 pb-12">
-          <button className="px-5 py-6 border border-[#BDBDBD] text-[#BDBDBD] font-bold text-sm rounded hover:bg-gray-50 transition-colors">
-            First
-          </button>
-          <button className="px-4 py-6 border border-[#E9E9E9] text-[#23A6F0] font-bold text-sm rounded hover:bg-gray-50 transition-colors">
-            1
-          </button>
-          <button className="px-4 py-6 bg-[#23A6F0] text-white font-bold text-sm rounded hover:bg-[#1a8cd8] transition-colors">
-            2
-          </button>
-          <button className="px-4 py-6 border border-[#E9E9E9] text-[#23A6F0] font-bold text-sm rounded hover:bg-gray-50 transition-colors">
-            3
-          </button>
-          <button className="px-5 py-6 border border-[#E9E9E9] text-[#23A6F0] font-bold text-sm rounded hover:bg-gray-50 transition-colors">
-            Next
-          </button>
-        </div>
+        <Pagination 
+          total={total}
+          limit={limit}
+          offset={offset}
+          categoryId={categoryId}
+          filter={filter}
+          sort={sort}
+        />
       </div>
     </div>
   );
