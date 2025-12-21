@@ -31,6 +31,10 @@ const ShoppingCartPage = () => {
 
     const selectedCount = cart.filter(item => item.checked).length;
 
+    const shippingCost = 29.99;
+    const discount = 0;
+    const grandTotal = selectedTotal + shippingCost - discount;
+
     return (
         <div className="bg-white min-h-screen">
             {/* Breadcrumb */}
@@ -60,9 +64,11 @@ const ShoppingCartPage = () => {
                         </Link>
                     </div>
                 ) : (
-                    <>
-                        {/* Desktop Table View */}
-                        <div className="hidden md:block overflow-x-auto">
+                    <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                        {/* Cart Items - Left Side (2/3) */}
+                        <div className="lg:col-span-2">
+                            {/* Desktop Table View */}
+                            <div className="hidden md:block overflow-x-auto">
                             <table className="w-full">
                                 <thead>
                                     <tr className="border-b-2 border-gray-200">
@@ -219,41 +225,62 @@ const ShoppingCartPage = () => {
                                 </div>
                             ))}
                         </div>
+                        </div>
 
-                        {/* Cart Summary */}
-                        <div className="mt-8 border-t-2 border-gray-200 pt-6">
-                            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-                                <div>
-                                    <p className="text-[#737373] mb-2">
-                                        Selected Items: <span className="font-bold text-[#252B42]">{selectedCount}</span>
-                                    </p>
-                                    <p className="text-sm text-[#737373]">
-                                        Total Items in Cart: {cart.length}
-                                    </p>
+                        {/* Order Summary - Right Side (1/3) */}
+                        <div className="lg:col-span-1">
+                            <div className="bg-[#FAFAFA] rounded-lg p-6 sticky top-4">
+                                <h2 className="text-xl font-bold text-[#252B42] mb-6">Order Summary</h2>
+                                
+                                <div className="space-y-4 mb-6">
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-[#737373]">Products Total ({selectedCount} items)</span>
+                                        <span className="font-bold text-[#252B42]">${selectedTotal.toFixed(2)}</span>
+                                    </div>
+                                    
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-[#737373]">Shipping</span>
+                                        <span className="font-bold text-[#252B42]">${shippingCost.toFixed(2)}</span>
+                                    </div>
+                                    
+                                    <div className="flex justify-between items-center">
+                                        <span className="text-[#737373]">Discount</span>
+                                        <span className="font-bold text-[#252B42]">-${discount.toFixed(2)}</span>
+                                    </div>
+                                    
+                                    <div className="border-t-2 border-gray-300 pt-4">
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-lg font-bold text-[#252B42]">Grand Total</span>
+                                            <span className="text-2xl font-bold text-[#23856D]">${grandTotal.toFixed(2)}</span>
+                                        </div>
+                                    </div>
                                 </div>
-                                <div className="text-right">
-                                    <p className="text-sm text-[#737373] mb-2">Total Amount (Selected Items):</p>
-                                    <p className="text-3xl font-bold text-[#23856D]">
-                                        ${selectedTotal.toFixed(2)}
-                                    </p>
-                                </div>
-                            </div>
-                            <div className="flex flex-col sm:flex-row gap-4 mt-6">
+                                
+                                <button
+                                    disabled={selectedCount === 0}
+                                    className="w-full px-6 py-3 bg-[#23A6F0] text-white font-bold rounded hover:bg-[#1a8cd8] transition-colors disabled:opacity-50 disabled:cursor-not-allowed mb-3"
+                                >
+                                    Create Order
+                                </button>
+                                
                                 <Link
                                     to="/shop"
-                                    className="flex-1 px-6 py-3 border-2 border-[#23A6F0] text-[#23A6F0] text-center font-bold rounded hover:bg-[#23A6F0] hover:text-white transition-colors"
+                                    className="block w-full px-6 py-3 border-2 border-[#23A6F0] text-[#23A6F0] text-center font-bold rounded hover:bg-[#23A6F0] hover:text-white transition-colors"
                                 >
                                     Continue Shopping
                                 </Link>
-                                <button
-                                    disabled={selectedCount === 0}
-                                    className="flex-1 px-6 py-3 bg-[#23A6F0] text-white font-bold rounded hover:bg-[#1a8cd8] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-                                >
-                                    Proceed to Checkout ({selectedCount} items)
-                                </button>
+                                
+                                <div className="mt-6 pt-6 border-t border-gray-300">
+                                    <p className="text-sm text-[#737373] mb-2">
+                                        Selected Items: <span className="font-bold text-[#252B42]">{selectedCount}</span>
+                                    </p>
+                                    <p className="text-sm text-[#737373]">
+                                        Total Items in Cart: <span className="font-bold text-[#252B42]">{cart.length}</span>
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                    </>
+                    </div>
                 )}
             </div>
         </div>
