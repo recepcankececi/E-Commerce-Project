@@ -1,9 +1,10 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { ChevronRight, Plus, Edit, Trash2, MapPin, CreditCard } from 'lucide-react';
 import { fetchAddresses, addAddress, updateAddress, deleteAddress } from '../store/actions/addressActions';
 import { fetchCards, addCard, updateCard, deleteCard } from '../store/actions/cardActions';
+import { createOrder } from '../store/actions/orderActions';
 import { setAddress } from '../store/actions/shoppingCartActions';
 import AddressForm from '../components/AddressForm';
 import CreditCardForm from '../components/CreditCardForm';
@@ -11,6 +12,7 @@ import LoadingSpinner from '../components/LoadingSpinner';
 
 const CreateOrderPage = () => {
     const dispatch = useDispatch();
+    const history = useHistory();
     const { addressList, addressLoading, cardList, cardLoading, cart } = useSelector((state) => state.shoppingCart);
     
     const [currentStep, setCurrentStep] = useState(1);
@@ -137,6 +139,43 @@ const CreateOrderPage = () => {
 
     const handleSelectCard = (card) => {
         setSelectedCard(card);
+    };
+
+    const handleCompleteOrder = async () => {
+        if (!canCompleteOrder) return;
+
+        try {
+            const orderDate = new Date().toISOString();
+            
+            const selectedItems = cart.filter(item => item.checked);
+            const totalPrice = selectedItems.reduce((total, item) => {
+                return total + (item.product.price * item.count);
+            }, 0);
+
+            const orderData = {
+                address_id: selectedShippingAddress.id,
+                order_date: orderDate,
+                card_no: parseInt(selectedCard.card_no),
+                card_name: selectedCard.name_on_card,
+                card_expire_month: selectedCard.expire_month,
+                card_expire_year: selectedCard.expire_year,
+                card_ccv: 123,
+                price: totalPrice,
+                products: selectedItems.map(item => ({
+                    product_id: item.product.id,
+                    count: item.count,
+                    detail: item.product.description || ''
+                }))
+            };
+
+            await dispatch(createOrder(orderData));
+            
+            setTimeout(() => {
+                history.push('/');
+            }, 2000);
+        } catch (error) {
+            console.error('Order creation failed:', error);
+        }
     };
 
     const selectedItems = cart.filter(item => item.checked);
@@ -483,6 +522,7 @@ const CreateOrderPage = () => {
                                 ) : (
                                     <>
                                         <button
+                                            onClick={handleCompleteOrder}
                                             disabled={!canCompleteOrder}
                                             className="w-full px-6 py-3 bg-[#23A6F0] text-white font-bold rounded hover:bg-[#1a8cd8] transition-colors disabled:opacity-50 disabled:cursor-not-allowed mb-3"
                                         >
