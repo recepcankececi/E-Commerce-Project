@@ -1,24 +1,31 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { ChevronRight, Plus, Edit, Trash2, MapPin } from 'lucide-react';
+import { ChevronRight, Plus, Edit, Trash2, MapPin, CreditCard } from 'lucide-react';
 import { fetchAddresses, addAddress, updateAddress, deleteAddress } from '../store/actions/addressActions';
+import { fetchCards, addCard, updateCard, deleteCard } from '../store/actions/cardActions';
 import { setAddress } from '../store/actions/shoppingCartActions';
 import AddressForm from '../components/AddressForm';
+import CreditCardForm from '../components/CreditCardForm';
 import LoadingSpinner from '../components/LoadingSpinner';
 
 const CreateOrderPage = () => {
     const dispatch = useDispatch();
-    const { addressList, addressLoading, cart } = useSelector((state) => state.shoppingCart);
+    const { addressList, addressLoading, cardList, cardLoading, cart } = useSelector((state) => state.shoppingCart);
     
+    const [currentStep, setCurrentStep] = useState(1);
     const [showAddressForm, setShowAddressForm] = useState(false);
+    const [showCardForm, setShowCardForm] = useState(false);
     const [editingAddress, setEditingAddress] = useState(null);
+    const [editingCard, setEditingCard] = useState(null);
     const [selectedShippingAddress, setSelectedShippingAddress] = useState(null);
     const [selectedBillingAddress, setSelectedBillingAddress] = useState(null);
+    const [selectedCard, setSelectedCard] = useState(null);
     const [useSameAddress, setUseSameAddress] = useState(true);
 
     useEffect(() => {
         dispatch(fetchAddresses());
+        dispatch(fetchCards());
     }, [dispatch]);
 
     const handleAddAddress = async (addressData) => {
@@ -85,8 +92,56 @@ const CreateOrderPage = () => {
         }
     };
 
+    const handleAddCard = async (cardData) => {
+        try {
+            await dispatch(addCard(cardData));
+            setShowCardForm(false);
+        } catch (error) {
+            console.error('Failed to add card:', error);
+        }
+    };
+
+    const handleUpdateCard = async (cardData) => {
+        try {
+            const dataWithId = { ...cardData, id: editingCard.id };
+            await dispatch(updateCard(dataWithId));
+            setShowCardForm(false);
+            setEditingCard(null);
+        } catch (error) {
+            console.error('Failed to update card:', error);
+        }
+    };
+
+    const handleDeleteCard = async (cardId) => {
+        if (window.confirm('Are you sure you want to delete this card?')) {
+            try {
+                await dispatch(deleteCard(cardId));
+                if (selectedCard?.id === cardId) {
+                    setSelectedCard(null);
+                }
+            } catch (error) {
+                console.error('Failed to delete card:', error);
+            }
+        }
+    };
+
+    const handleEditCard = (card) => {
+        setEditingCard(card);
+        setShowCardForm(true);
+    };
+
+    const handleCancelCardForm = () => {
+        setShowCardForm(false);
+        setEditingCard(null);
+    };
+
+    const handleSelectCard = (card) => {
+        setSelectedCard(card);
+    };
+
     const selectedItems = cart.filter(item => item.checked);
-    const canProceed = selectedShippingAddress && selectedBillingAddress && selectedItems.length > 0;
+    const canProceedToStep2 = selectedShippingAddress && selectedBillingAddress && selectedItems.length > 0;
+    const canCompleteOrder = canProceedToStep2 && selectedCard;
 
     const AddressCard = ({ address, isSelected, onSelect, onEdit, onDelete, type }) => (
         <div
@@ -137,6 +192,57 @@ const CreateOrderPage = () => {
         </div>
     );
 
+    const CardCard = ({ card, isSelected, onSelect, onEdit, onDelete }) => {
+        const maskedCardNo = `**** **** **** ${card.card_no.slice(-4)}`;
+        return (
+            <div
+                className={`border-2 rounded-lg p-4 cursor-pointer transition-all ${
+                    isSelected ? 'border-[#23A6F0] bg-blue-50' : 'border-gray-300 hover:border-[#23A6F0]'
+                }`}
+                onClick={() => onSelect(card)}
+            >
+                <div className="flex items-start justify-between mb-3">
+                    <div className="flex items-center gap-2">
+                        <input
+                            type="radio"
+                            checked={isSelected}
+                            onChange={() => onSelect(card)}
+                            className="w-5 h-5 cursor-pointer"
+                        />
+                        <CreditCard size={24} className="text-[#23A6F0]" />
+                        <div>
+                            <h4 className="font-bold text-[#252B42]">{maskedCardNo}</h4>
+                            <p className="text-sm text-[#737373]">{card.name_on_card}</p>
+                        </div>
+                    </div>
+                    <div className="flex gap-2">
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onEdit(card);
+                            }}
+                            className="text-[#23A6F0] hover:text-[#1a8cd8]"
+                        >
+                            <Edit size={18} />
+                        </button>
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                onDelete(card.id);
+                            }}
+                            className="text-red-500 hover:text-red-700"
+                        >
+                            <Trash2 size={18} />
+                        </button>
+                    </div>
+                </div>
+                <div className="text-sm text-[#737373]">
+                    <p>Expires: {card.expire_month.toString().padStart(2, '0')}/{card.expire_year}</p>
+                </div>
+            </div>
+        );
+    };
+
     return (
         <div className="bg-white min-h-screen">
             {/* Breadcrumb */}
@@ -158,16 +264,41 @@ const CreateOrderPage = () => {
 
             <div className="container mx-auto px-8 py-12">
                 <h1 className="text-3xl font-bold text-[#252B42] mb-2">Create Order</h1>
-                <p className="text-[#737373] mb-8">Step 1: Address Information</p>
+                
+                {/* Step Indicator */}
+                <div className="flex items-center gap-4 mb-8">
+                    <button
+                        onClick={() => setCurrentStep(1)}
+                        className={`flex items-center gap-2 px-4 py-2 rounded ${
+                            currentStep === 1 ? 'bg-[#23A6F0] text-white' : 'bg-gray-200 text-[#737373]'
+                        }`}
+                    >
+                        <span className="font-bold">1</span>
+                        <span>Address</span>
+                    </button>
+                    <button
+                        onClick={() => canProceedToStep2 && setCurrentStep(2)}
+                        disabled={!canProceedToStep2}
+                        className={`flex items-center gap-2 px-4 py-2 rounded ${
+                            currentStep === 2 ? 'bg-[#23A6F0] text-white' : 'bg-gray-200 text-[#737373]'
+                        } disabled:opacity-50 disabled:cursor-not-allowed`}
+                    >
+                        <span className="font-bold">2</span>
+                        <span>Payment</span>
+                    </button>
+                </div>
 
-                {addressLoading ? (
+                {(addressLoading || cardLoading) ? (
                     <div className="flex justify-center py-12">
                         <LoadingSpinner size="large" />
                     </div>
                 ) : (
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                        {/* Address Management - Left Side */}
+                        {/* Content - Left Side */}
                         <div className="lg:col-span-2 space-y-8">
+                            {/* Step 1: Address */}
+                            {currentStep === 1 && (
+                                <>
                             {/* Shipping Address */}
                             <div>
                                 <div className="flex items-center justify-between mb-4">
@@ -261,6 +392,52 @@ const CreateOrderPage = () => {
                                     </div>
                                 )}
                             </div>
+                                </>
+                            )}
+
+                            {/* Step 2: Payment */}
+                            {currentStep === 2 && (
+                                <div>
+                                    <div className="flex items-center justify-between mb-4">
+                                        <h2 className="text-xl font-bold text-[#252B42] flex items-center gap-2">
+                                            <CreditCard size={24} />
+                                            Payment Method
+                                        </h2>
+                                        <button
+                                            onClick={() => setShowCardForm(true)}
+                                            className="flex items-center gap-2 px-4 py-2 bg-[#23A6F0] text-white font-bold rounded hover:bg-[#1a8cd8] transition-colors"
+                                        >
+                                            <Plus size={20} />
+                                            Add Card
+                                        </button>
+                                    </div>
+
+                                    {cardList.length === 0 ? (
+                                        <div className="text-center py-12 border-2 border-dashed border-gray-300 rounded-lg">
+                                            <p className="text-[#737373] mb-4">No saved cards</p>
+                                            <button
+                                                onClick={() => setShowCardForm(true)}
+                                                className="px-6 py-3 bg-[#23A6F0] text-white font-bold rounded hover:bg-[#1a8cd8] transition-colors"
+                                            >
+                                                Add Your First Card
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                            {cardList.map((card) => (
+                                                <CardCard
+                                                    key={card.id}
+                                                    card={card}
+                                                    isSelected={selectedCard?.id === card.id}
+                                                    onSelect={handleSelectCard}
+                                                    onEdit={handleEditCard}
+                                                    onDelete={handleDeleteCard}
+                                                />
+                                            ))}
+                                        </div>
+                                    )}
+                                </div>
+                            )}
                         </div>
 
                         {/* Order Summary - Right Side */}
@@ -285,14 +462,40 @@ const CreateOrderPage = () => {
                                             {selectedBillingAddress ? '✓' : '✗'}
                                         </span>
                                     </div>
+                                    {currentStep === 2 && (
+                                        <div className="flex justify-between items-center">
+                                            <span className="text-[#737373]">Payment Method</span>
+                                            <span className="font-bold text-[#252B42]">
+                                                {selectedCard ? '✓' : '✗'}
+                                            </span>
+                                        </div>
+                                    )}
                                 </div>
 
-                                <button
-                                    disabled={!canProceed}
-                                    className="w-full px-6 py-3 bg-[#23A6F0] text-white font-bold rounded hover:bg-[#1a8cd8] transition-colors disabled:opacity-50 disabled:cursor-not-allowed mb-3"
-                                >
-                                    Continue to Payment
-                                </button>
+                                {currentStep === 1 ? (
+                                    <button
+                                        onClick={() => canProceedToStep2 && setCurrentStep(2)}
+                                        disabled={!canProceedToStep2}
+                                        className="w-full px-6 py-3 bg-[#23A6F0] text-white font-bold rounded hover:bg-[#1a8cd8] transition-colors disabled:opacity-50 disabled:cursor-not-allowed mb-3"
+                                    >
+                                        Continue to Payment
+                                    </button>
+                                ) : (
+                                    <>
+                                        <button
+                                            disabled={!canCompleteOrder}
+                                            className="w-full px-6 py-3 bg-[#23A6F0] text-white font-bold rounded hover:bg-[#1a8cd8] transition-colors disabled:opacity-50 disabled:cursor-not-allowed mb-3"
+                                        >
+                                            Complete Order
+                                        </button>
+                                        <button
+                                            onClick={() => setCurrentStep(1)}
+                                            className="w-full px-6 py-3 border-2 border-[#23A6F0] text-[#23A6F0] font-bold rounded hover:bg-[#23A6F0] hover:text-white transition-colors mb-3"
+                                        >
+                                            Back to Address
+                                        </button>
+                                    </>
+                                )}
 
                                 <Link
                                     to="/cart"
@@ -301,10 +504,17 @@ const CreateOrderPage = () => {
                                     Back to Cart
                                 </Link>
 
-                                {!canProceed && (
+                                {currentStep === 1 && !canProceedToStep2 && (
                                     <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded">
                                         <p className="text-sm text-yellow-800">
                                             Please select shipping and billing addresses to continue
+                                        </p>
+                                    </div>
+                                )}
+                                {currentStep === 2 && !selectedCard && (
+                                    <div className="mt-4 p-3 bg-yellow-50 border border-yellow-200 rounded">
+                                        <p className="text-sm text-yellow-800">
+                                            Please select a payment method to complete order
                                         </p>
                                     </div>
                                 )}
@@ -320,6 +530,15 @@ const CreateOrderPage = () => {
                     onSubmit={editingAddress ? handleUpdateAddress : handleAddAddress}
                     onCancel={handleCancelForm}
                     initialData={editingAddress}
+                />
+            )}
+
+            {/* Card Form Modal */}
+            {showCardForm && (
+                <CreditCardForm
+                    onSubmit={editingCard ? handleUpdateCard : handleAddCard}
+                    onCancel={handleCancelCardForm}
+                    initialData={editingCard}
                 />
             )}
         </div>
