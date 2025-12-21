@@ -14,12 +14,14 @@ import SignUpPage from './pages/SignUpPage';
 import LoginPage from './pages/LoginPage';
 import ScrollToTop from './components/ScrollToTop';
 import { verifyToken } from './store/actions/clientActions';
+import { fetchCategories } from './store/actions/productActions';
 
 function App() {
     const dispatch = useDispatch();
 
     useEffect(() => {
         dispatch(verifyToken());
+        dispatch(fetchCategories());
     }, [dispatch]);
 
     return (
@@ -30,6 +32,7 @@ function App() {
                 <PageContent>
                     <Switch>
                         <Route exact path="/" component={HomePage} />
+                        <Route path="/shop/:gender/:categoryName/:categoryId" component={ShopPage} />
                         <Route path="/shop" component={ShopPage} />
                         <Route path="/product/:productId" component={ProductDetailPage} />
                         <Route path="/about" component={AboutPage} />

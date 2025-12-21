@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { ShoppingCart, Heart, Search, User, Menu, X, Phone, Mail, Instagram, Youtube, Facebook, Twitter, LogOut } from 'lucide-react';
@@ -10,12 +10,19 @@ const Header = () => {
     const [isShopOpen, setIsShopOpen] = useState(false);
     const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
     const { user } = useSelector((state) => state.client);
+    const { categories } = useSelector((state) => state.product);
     const dispatch = useDispatch();
 
     const handleLogout = () => {
         dispatch(logoutUser());
         setIsUserMenuOpen(false);
     };
+
+    const categoriesByGender = useMemo(() => {
+        const kadin = categories.filter(cat => cat.gender === 'k');
+        const erkek = categories.filter(cat => cat.gender === 'e');
+        return { kadin, erkek };
+    }, [categories]);
 
     return (
         <header>
@@ -91,21 +98,39 @@ const Header = () => {
                                             <div>
                                                 <h3 className="font-bold text-[#252B42] mb-4">Kadın</h3>
                                                 <ul className="space-y-3">
-                                                    <li><Link to="/shop/bags" className="text-[#737373] hover:text-[#252B42]">Bags</Link></li>
-                                                    <li><Link to="/shop/belts" className="text-[#737373] hover:text-[#252B42]">Belts</Link></li>
-                                                    <li><Link to="/shop/cosmetics" className="text-[#737373] hover:text-[#252B42]">Cosmetics</Link></li>
-                                                    <li><Link to="/shop/bags" className="text-[#737373] hover:text-[#252B42]">Bags</Link></li>
-                                                    <li><Link to="/shop/hats" className="text-[#737373] hover:text-[#252B42]">Hats</Link></li>
+                                                    {categoriesByGender.kadin.map((category) => {
+                                                        const categoryPath = category.title.toLowerCase().replace(/\s+/g, '-');
+                                                        return (
+                                                            <li key={category.id}>
+                                                                <Link 
+                                                                    to={`/shop/kadin/${categoryPath}/${category.id}`}
+                                                                    className="text-[#737373] hover:text-[#252B42]"
+                                                                    onClick={() => setIsShopOpen(false)}
+                                                                >
+                                                                    {category.title}
+                                                                </Link>
+                                                            </li>
+                                                        );
+                                                    })}
                                                 </ul>
                                             </div>
                                             <div>
                                                 <h3 className="font-bold text-[#252B42] mb-4">Erkek</h3>
                                                 <ul className="space-y-3">
-                                                    <li><Link to="/shop/bags" className="text-[#737373] hover:text-[#252B42]">Bags</Link></li>
-                                                    <li><Link to="/shop/belts" className="text-[#737373] hover:text-[#252B42]">Belts</Link></li>
-                                                    <li><Link to="/shop/cosmetics" className="text-[#737373] hover:text-[#252B42]">Cosmetics</Link></li>
-                                                    <li><Link to="/shop/bags" className="text-[#737373] hover:text-[#252B42]">Bags</Link></li>
-                                                    <li><Link to="/shop/hats" className="text-[#737373] hover:text-[#252B42]">Hats</Link></li>
+                                                    {categoriesByGender.erkek.map((category) => {
+                                                        const categoryPath = category.title.toLowerCase().replace(/\s+/g, '-');
+                                                        return (
+                                                            <li key={category.id}>
+                                                                <Link 
+                                                                    to={`/shop/erkek/${categoryPath}/${category.id}`}
+                                                                    className="text-[#737373] hover:text-[#252B42]"
+                                                                    onClick={() => setIsShopOpen(false)}
+                                                                >
+                                                                    {category.title}
+                                                                </Link>
+                                                            </li>
+                                                        );
+                                                    })}
                                                 </ul>
                                             </div>
                                         </div>

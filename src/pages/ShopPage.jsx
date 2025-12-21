@@ -1,12 +1,40 @@
-import { Link } from 'react-router-dom';
+import { useEffect } from 'react';
+import { Link, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import { ChevronRight } from 'lucide-react';
 import ShopCategoryCard from '../components/ShopCategoryCard';
 import ShopFilters from '../components/ShopFilters';
 import ProductCard from '../components/ProductCard';
+import LoadingSpinner from '../components/LoadingSpinner';
+import { fetchProducts } from '../store/actions/productActions';
 import { categories } from '../data/categories';
-import { products } from '../data/products';
 
 const ShopPage = () => {
+  const dispatch = useDispatch();
+  const { categoryId } = useParams();
+  const { productList, fetchState, total, limit, offset, filter, sort } = useSelector((state) => state.product);
+
+  useEffect(() => {
+    const params = {
+      limit: limit,
+      offset: offset,
+    };
+    
+    if (categoryId) {
+      params.category = categoryId;
+    }
+    
+    if (filter) {
+      params.filter = filter;
+    }
+    
+    if (sort) {
+      params.sort = sort;
+    }
+    
+    dispatch(fetchProducts(params));
+  }, [dispatch, categoryId, limit, offset, filter, sort]);
+
   return (
     <div className="bg-white">
       <div className="bg-[#FAFAFA]">
@@ -32,13 +60,32 @@ const ShopPage = () => {
           ))}
         </div>
 
-        <ShopFilters />
+        <ShopFilters categoryId={categoryId} />
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12 mb-12">
-          {products.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
+        {fetchState === 'FETCHING' ? (
+          <div className="min-h-[400px] flex items-center justify-center">
+            <LoadingSpinner size="large" />
+          </div>
+        ) : fetchState === 'FAILED' ? (
+          <div className="min-h-[400px] flex items-center justify-center">
+            <p className="text-red-600 text-lg">Failed to load products. Please try again.</p>
+          </div>
+        ) : productList.length === 0 ? (
+          <div className="min-h-[400px] flex items-center justify-center">
+            <p className="text-gray-600 text-lg">No products found.</p>
+          </div>
+        ) : (
+          <>
+            <div className="mb-4 text-sm text-gray-600">
+              Showing {productList.length} of {total} products
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-12 mb-12">
+              {productList.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+          </>
+        )}
 
         <div className="flex justify-center items-center gap-2 pb-12">
           <button className="px-5 py-6 border border-[#BDBDBD] text-[#BDBDBD] font-bold text-sm rounded hover:bg-gray-50 transition-colors">
