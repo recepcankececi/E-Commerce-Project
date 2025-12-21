@@ -9,6 +9,7 @@ export const SET_LIMIT = 'SET_LIMIT';
 export const SET_OFFSET = 'SET_OFFSET';
 export const SET_FILTER = 'SET_FILTER';
 export const SET_SORT = 'SET_SORT';
+export const SET_SELECTED_PRODUCT = 'SET_SELECTED_PRODUCT';
 
 export const setCategories = (categories) => ({
     type: SET_CATEGORIES,
@@ -50,6 +51,11 @@ export const setSort = (sort) => ({
     payload: sort,
 });
 
+export const setSelectedProduct = (product) => ({
+    type: SET_SELECTED_PRODUCT,
+    payload: product,
+});
+
 export const fetchCategories = () => async (dispatch) => {
     try {
         const response = await axiosInstance.get('/categories');
@@ -81,6 +87,20 @@ export const fetchProducts = (params = {}) => async (dispatch) => {
     } catch (error) {
         console.error('Error fetching products:', error);
         toast.error('Failed to load products');
+        dispatch(setFetchState('FAILED'));
+    }
+};
+
+export const fetchProductById = (productId) => async (dispatch) => {
+    dispatch(setFetchState('FETCHING'));
+    
+    try {
+        const response = await axiosInstance.get(`/products/${productId}`);
+        dispatch(setSelectedProduct(response.data));
+        dispatch(setFetchState('FETCHED'));
+    } catch (error) {
+        console.error('Error fetching product:', error);
+        toast.error('Failed to load product details');
         dispatch(setFetchState('FAILED'));
     }
 };

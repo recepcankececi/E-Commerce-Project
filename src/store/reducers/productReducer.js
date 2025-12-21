@@ -7,6 +7,7 @@ import {
     SET_OFFSET,
     SET_FILTER,
     SET_SORT,
+    SET_SELECTED_PRODUCT,
 } from '../actions/productActions';
 
 const initialState = {
@@ -17,6 +18,7 @@ const initialState = {
     offset: 0,
     filter: '',
     sort: '',
+    selectedProduct: null,
     fetchState: 'NOT_FETCHED',
 };
 
@@ -61,6 +63,11 @@ const productReducer = (state = initialState, action) => {
             return {
                 ...state,
                 sort: action.payload,
+            };
+        case SET_SELECTED_PRODUCT:
+            return {
+                ...state,
+                selectedProduct: action.payload,
             };
         default:
             return state;

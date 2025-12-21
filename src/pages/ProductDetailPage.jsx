@@ -1,27 +1,49 @@
-import { useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { ChevronRight, ChevronLeft, Star, Heart, ShoppingCart, Eye } from 'lucide-react';
-import { products } from '../data/products';
+import { useState, useEffect } from 'react';
+import { Link, useParams, useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { ChevronRight, ChevronLeft, Star, Heart, ShoppingCart, Eye, ArrowLeft } from 'lucide-react';
+import { fetchProductById } from '../store/actions/productActions';
+import LoadingSpinner from '../components/LoadingSpinner';
 
 const ProductDetailPage = () => {
   const { productId } = useParams();
-  const product = products.find(p => p.id === parseInt(productId));
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const { selectedProduct: product, fetchState } = useSelector((state) => state.product);
   
   const [selectedImage, setSelectedImage] = useState(0);
   const [activeTab, setActiveTab] = useState('description');
 
-  if (!product) {
+  useEffect(() => {
+    if (productId) {
+      dispatch(fetchProductById(productId));
+    }
+  }, [dispatch, productId]);
+
+  if (fetchState === 'FETCHING') {
     return (
-      <div className="container mx-auto px-4 py-12 text-center">
-        <h2 className="text-2xl font-bold text-[#252B42]">Product not found</h2>
-        <Link to="/shop" className="text-[#23A6F0] hover:underline mt-4 inline-block">
-          Back to Shop
-        </Link>
+      <div className="min-h-screen flex items-center justify-center">
+        <LoadingSpinner size="large" />
       </div>
     );
   }
 
-  const productImages = [product.image, product.image];
+  if (fetchState === 'FAILED' || !product) {
+    return (
+      <div className="container mx-auto px-4 py-12 text-center">
+        <h2 className="text-2xl font-bold text-[#252B42] mb-4">Product not found</h2>
+        <button
+          onClick={() => history.goBack()}
+          className="text-[#23A6F0] hover:underline inline-flex items-center gap-2"
+        >
+          <ArrowLeft size={20} />
+          Go Back
+        </button>
+      </div>
+    );
+  }
+
+  const productImages = product.images?.length > 0 ? product.images.map(img => img.url) : [product.image || '/placeholder.jpg'];
 
   const renderStars = (rating = 4) => {
     return (
@@ -41,6 +63,15 @@ const ProductDetailPage = () => {
     <div className="bg-white">
       <div className="bg-[#FAFAFA] py-6">
         <div className="container mx-auto px-8">
+          <div className="flex items-center justify-between mb-4">
+            <button
+              onClick={() => history.goBack()}
+              className="flex items-center gap-2 text-[#23A6F0] hover:text-[#1a8cd8] font-bold text-sm transition-colors"
+            >
+              <ArrowLeft size={20} />
+              Back
+            </button>
+          </div>
           <nav className="flex items-center justify-center md:justify-start gap-2 text-sm">
             <Link to="/" className="font-bold text-[#252B42] hover:text-[#23A6F0]">
               Home
@@ -95,39 +126,43 @@ const ProductDetailPage = () => {
 
           <div>
             <h1 className="text-xl font-normal text-[#252B42] mb-4">
-              {product.title}
+              {product.name || product.title}
             </h1>
 
             <div className="flex items-center gap-2 mb-4">
-              {renderStars(4)}
-              <span className="text-sm font-bold text-[#737373]">10 Reviews</span>
+              {renderStars(Math.round(product.rating || 0))}
+              <span className="text-sm font-bold text-[#737373]">{product.sell_count || 0} Sales</span>
             </div>
 
             <div className="text-2xl font-bold text-[#252B42] mb-4">
-              ${product.price.toFixed(2)}
+              ${product.price?.toFixed(2)}
             </div>
 
             <div className="flex items-center gap-2 mb-6">
               <span className="text-sm font-bold text-[#737373]">Availability :</span>
-              <span className="text-sm font-bold text-[#23A6F0]">In Stock</span>
+              <span className={`text-sm font-bold ${product.stock > 0 ? 'text-[#23A6F0]' : 'text-red-500'}`}>
+                {product.stock > 0 ? `In Stock (${product.stock})` : 'Out of Stock'}
+              </span>
             </div>
 
             <p className="text-sm text-[#858585] leading-relaxed mb-6 pb-6 border-b border-gray-200">
-              Met minim Mollie non desert Alamo est sit cliquey dolor do met sent. RELIT official consequent door ENIM RELIT Mollie. Excitation venial consequent sent nostrum met.
+              {product.description || 'No description available.'}
             </p>
 
-            <div className="mb-6 pb-6 border-b border-gray-200">
-              <div className="flex items-center gap-2">
-                {product.colors.map((color, index) => (
-                  <button
-                    key={index}
-                    className="w-8 h-8 rounded-full border-2 border-gray-300 hover:scale-110 transition-transform"
-                    style={{ backgroundColor: color }}
-                    aria-label={`Color option ${index + 1}`}
-                  />
-                ))}
+            {product.colors && product.colors.length > 0 && (
+              <div className="mb-6 pb-6 border-b border-gray-200">
+                <div className="flex items-center gap-2">
+                  {product.colors.map((color, index) => (
+                    <button
+                      key={index}
+                      className="w-8 h-8 rounded-full border-2 border-gray-300 hover:scale-110 transition-transform"
+                      style={{ backgroundColor: color }}
+                      aria-label={`Color option ${index + 1}`}
+                    />
+                  ))}
+                </div>
               </div>
-            </div>
+            )}
 
             <div className="flex items-center gap-3">
               <button className="px-5 py-2.5 bg-[#23A6F0] text-white text-sm font-bold rounded hover:bg-[#1a8cd8] transition-colors">
@@ -183,60 +218,20 @@ const ProductDetailPage = () => {
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-1">
               <img
-                src={product.image}
+                src={productImages[0]}
                 alt="Product detail"
                 className="w-full rounded"
               />
             </div>
 
             <div className="lg:col-span-2">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div>
-                  <h3 className="text-2xl font-bold text-[#252B42] mb-6">
-                    the quick fox jumps over
-                  </h3>
-                  <div className="space-y-4 text-sm text-[#737373]">
-                    <p>
-                      Met minim Mollie non desert Alamo est sit cliquey dolor do met sent. RELIT official consequent door ENIM RELIT Mollie. Excitation venial consequent sent nostrum met.
-                    </p>
-                    <p>
-                      Met minim Mollie non desert Alamo est sit cliquey dolor do met sent. RELIT official consequent door ENIM RELIT Mollie. Excitation venial consequent sent nostrum met.
-                    </p>
-                    <p>
-                      Met minim Mollie non desert Alamo est sit cliquey dolor do met sent. RELIT official consequent door ENIM RELIT Mollie. Excitation venial consequent sent nostrum met.
-                    </p>
-                  </div>
-                </div>
-
-                <div>
-                  <h3 className="text-2xl font-bold text-[#252B42] mb-6">
-                    the quick fox jumps over
-                  </h3>
-                  <div className="space-y-3">
-                    {[...Array(4)].map((_, index) => (
-                      <div key={index} className="flex items-center gap-3">
-                        <ChevronRight size={16} className="text-[#737373]" />
-                        <span className="text-sm font-bold text-[#737373]">
-                          the quick fox jumps over the lazy dog
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-
-                  <h3 className="text-2xl font-bold text-[#252B42] mt-8 mb-6">
-                    the quick fox jumps over
-                  </h3>
-                  <div className="space-y-3">
-                    {[...Array(3)].map((_, index) => (
-                      <div key={index} className="flex items-center gap-3">
-                        <ChevronRight size={16} className="text-[#737373]" />
-                        <span className="text-sm font-bold text-[#737373]">
-                          the quick fox jumps over the lazy dog
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
+              <h3 className="text-2xl font-bold text-[#252B42] mb-6">
+                {product.name || product.title}
+              </h3>
+              <div className="text-sm text-[#737373] leading-relaxed">
+                <p>
+                  {product.description || 'No description available.'}
+                </p>
               </div>
             </div>
           </div>
