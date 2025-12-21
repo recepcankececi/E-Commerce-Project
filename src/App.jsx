@@ -1,4 +1,6 @@
+import { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import Header from './layout/Header';
 import PageContent from './layout/PageContent';
 import Footer from './layout/Footer';
@@ -8,9 +10,18 @@ import ProductDetailPage from './pages/ProductDetailPage';
 import ContactPage from './pages/ContactPage';
 import TeamPage from './pages/TeamPage';
 import AboutPage from './pages/AboutPage';
+import SignUpPage from './pages/SignUpPage';
+import LoginPage from './pages/LoginPage';
 import ScrollToTop from './components/ScrollToTop';
+import { verifyToken } from './store/actions/clientActions';
 
 function App() {
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(verifyToken());
+    }, [dispatch]);
+
     return (
         <Router>
             <ScrollToTop />
@@ -24,6 +35,8 @@ function App() {
                         <Route path="/about" component={AboutPage} />
                         <Route path="/contact" component={ContactPage} />
                         <Route path="/team" component={TeamPage} />
+                        <Route path="/signup" component={SignUpPage} />
+                        <Route path="/login" component={LoginPage} />
                     </Switch>
                 </PageContent>
                 <Footer />

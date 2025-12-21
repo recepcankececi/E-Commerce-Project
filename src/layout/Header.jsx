@@ -1,10 +1,21 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ShoppingCart, Heart, Search, User, Menu, X, Phone, Mail, Instagram, Youtube, Facebook, Twitter } from 'lucide-react';
+import { useSelector, useDispatch } from 'react-redux';
+import { ShoppingCart, Heart, Search, User, Menu, X, Phone, Mail, Instagram, Youtube, Facebook, Twitter, LogOut } from 'lucide-react';
+import { logoutUser } from '../store/actions/clientActions';
+import { getGravatarUrl } from '../utils/gravatar';
 
 const Header = () => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isShopOpen, setIsShopOpen] = useState(false);
+    const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
+    const { user } = useSelector((state) => state.client);
+    const dispatch = useDispatch();
+
+    const handleLogout = () => {
+        dispatch(logoutUser());
+        setIsUserMenuOpen(false);
+    };
 
     return (
         <header>
@@ -120,11 +131,47 @@ const Header = () => {
 
                         {/* Right Side Actions */}
                         <div className="flex items-center gap-4 lg:gap-6">
-                            {/* Desktop Login */}
-                            <Link to="/login" className="hidden lg:flex items-center gap-1 text-[#23A6F0] font-bold text-sm">
-                                <User size={16} />
-                                <span>Login / Register</span>
-                            </Link>
+                            {/* Desktop Login/User */}
+                            {user ? (
+                                <div className="hidden lg:flex items-center gap-3 relative">
+                                    <button
+                                        onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
+                                        className="flex items-center gap-2 text-[#23A6F0] font-bold text-sm hover:opacity-80"
+                                    >
+                                        <img
+                                            src={getGravatarUrl(user.email, 32)}
+                                            alt={user.name}
+                                            className="w-8 h-8 rounded-full"
+                                        />
+                                        <span>{user.name}</span>
+                                    </button>
+                                    {isUserMenuOpen && (
+                                        <div className="absolute top-full right-0 mt-2 bg-white shadow-lg rounded-md min-w-[200px] z-50 py-2">
+                                            <div className="px-4 py-2 border-b">
+                                                <p className="font-bold text-sm text-[#252B42]">{user.name}</p>
+                                                <p className="text-xs text-[#737373]">{user.email}</p>
+                                            </div>
+                                            <button
+                                                onClick={handleLogout}
+                                                className="w-full px-4 py-2 text-left text-sm text-[#737373] hover:bg-gray-50 flex items-center gap-2"
+                                            >
+                                                <LogOut size={16} />
+                                                Logout
+                                            </button>
+                                        </div>
+                                    )}
+                                </div>
+                            ) : (
+                                <div className="hidden lg:flex items-center gap-4">
+                                    <Link to="/login" className="flex items-center gap-1 text-[#23A6F0] font-bold text-sm hover:opacity-80">
+                                        <User size={16} />
+                                        <span>Login</span>
+                                    </Link>
+                                    <Link to="/signup" className="flex items-center gap-1 text-[#23A6F0] font-bold text-sm hover:opacity-80">
+                                        <span>Register</span>
+                                    </Link>
+                                </div>
+                            )}
 
                             {/* Search Icon */}
                             <button className="text-[#23A6F0] hover:opacity-80">
