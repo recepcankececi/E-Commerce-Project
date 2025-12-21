@@ -164,9 +164,6 @@ const Header = () => {
                             <Link to="/contact" className="text-[#737373] hover:text-[#252B42] font-bold text-sm">
                                 Contact
                             </Link>
-                            <Link to="/pages" className="text-[#737373] hover:text-[#252B42] font-bold text-sm">
-                                Pages
-                            </Link>
                         </div>
 
                         {/* Right Side Actions */}
@@ -304,10 +301,77 @@ const Header = () => {
                                 <span className="text-xs font-medium">1</span>
                             </button>
 
-                            {/* Mobile Icons */}
-                            <button className="lg:hidden text-[#23A6F0]">
-                                <ShoppingCart size={20} />
-                            </button>
+                            {/* Mobile Cart */}
+                            <div className="lg:hidden relative">
+                                <button 
+                                    onClick={() => setIsCartOpen(!isCartOpen)}
+                                    className="flex items-center gap-1 text-[#23A6F0] hover:opacity-80"
+                                >
+                                    <ShoppingCart size={20} />
+                                    {cartItemCount > 0 && (
+                                        <span className="text-xs font-medium">{cartItemCount}</span>
+                                    )}
+                                </button>
+                                
+                                {isCartOpen && (
+                                    <div className="absolute right-0 top-full mt-2 bg-white shadow-lg rounded-sm w-80 z-50 max-h-96 overflow-y-auto">
+                                        {cart.length === 0 ? (
+                                            <div className="p-6 text-center text-[#737373]">
+                                                Your cart is empty
+                                            </div>
+                                        ) : (
+                                            <>
+                                                <div className="p-4 border-b">
+                                                    <h3 className="font-bold text-[#252B42]">Shopping Cart ({cartItemCount})</h3>
+                                                </div>
+                                                <div className="divide-y">
+                                                    {cart.map((item) => (
+                                                        <div key={item.product.id} className="p-4 flex gap-3">
+                                                            <img 
+                                                                src={item.product.images?.[0]?.url || item.product.image} 
+                                                                alt={item.product.name || item.product.title}
+                                                                className="w-16 h-16 object-cover rounded"
+                                                            />
+                                                            <div className="flex-1 min-w-0">
+                                                                <h4 className="text-sm font-bold text-[#252B42] truncate">
+                                                                    {item.product.name || item.product.title}
+                                                                </h4>
+                                                                <p className="text-xs text-[#737373] mt-1">
+                                                                    Quantity: {item.count}
+                                                                </p>
+                                                                <p className="text-sm font-bold text-[#23856D] mt-1">
+                                                                    ${(item.product.price * item.count).toFixed(2)}
+                                                                </p>
+                                                            </div>
+                                                            <button
+                                                                onClick={() => handleRemoveFromCart(item.product.id)}
+                                                                className="text-red-500 hover:text-red-700"
+                                                            >
+                                                                <Trash2 size={16} />
+                                                            </button>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                                <div className="p-4 border-t">
+                                                    <div className="flex justify-between items-center mb-3">
+                                                        <span className="font-bold text-[#252B42]">Total:</span>
+                                                        <span className="font-bold text-[#23856D] text-lg">
+                                                            ${cartTotal.toFixed(2)}
+                                                        </span>
+                                                    </div>
+                                                    <Link
+                                                        to="/cart"
+                                                        onClick={() => setIsCartOpen(false)}
+                                                        className="block w-full px-4 py-2 bg-[#23A6F0] text-white text-center text-sm font-bold rounded hover:bg-[#1a8cd8] transition-colors"
+                                                    >
+                                                        View Cart
+                                                    </Link>
+                                                </div>
+                                            </>
+                                        )}
+                                    </div>
+                                )}
+                            </div>
 
                             {/* Mobile Menu Toggle */}
                             <button
@@ -325,21 +389,76 @@ const Header = () => {
                     <div className="lg:hidden bg-white border-t">
                         <div className="container mx-auto px-4 py-6">
                             <div className="flex flex-col items-center gap-6 text-center">
-                                <Link to="/" className="text-[#737373] hover:text-[#252B42] font-normal text-xl">
+                                <Link to="/" onClick={() => setIsMenuOpen(false)} className="text-[#737373] hover:text-[#252B42] font-normal text-xl">
                                     Home
                                 </Link>
-                                <Link to="/shop" className="text-[#737373] hover:text-[#252B42] font-normal text-xl">
+                                <Link to="/shop" onClick={() => setIsMenuOpen(false)} className="text-[#737373] hover:text-[#252B42] font-normal text-xl">
                                     Shop
                                 </Link>
-                                <Link to="/about" className="text-[#737373] hover:text-[#252B42] font-normal text-xl">
+                                <Link to="/about" onClick={() => setIsMenuOpen(false)} className="text-[#737373] hover:text-[#252B42] font-normal text-xl">
                                     About
                                 </Link>
-                                <Link to="/team" className="text-[#737373] hover:text-[#252B42] font-normal text-xl">
+                                <Link to="/team" onClick={() => setIsMenuOpen(false)} className="text-[#737373] hover:text-[#252B42] font-normal text-xl">
                                     Team
                                 </Link>
-                                <Link to="/contact" className="text-[#737373] hover:text-[#252B42] font-normal text-xl">
+                                <Link to="/contact" onClick={() => setIsMenuOpen(false)} className="text-[#737373] hover:text-[#252B42] font-normal text-xl">
                                     Contact
                                 </Link>
+                                
+                                {/* Mobile User Section */}
+                                <div className="w-full border-t pt-6 mt-2">
+                                    {user ? (
+                                        <div className="flex flex-col items-center gap-4">
+                                            <div className="flex items-center gap-3">
+                                                <img
+                                                    src={getGravatarUrl(user.email, 32)}
+                                                    alt={user.name}
+                                                    className="w-10 h-10 rounded-full"
+                                                />
+                                                <div className="text-left">
+                                                    <p className="font-bold text-sm text-[#252B42]">{user.name}</p>
+                                                    <p className="text-xs text-[#737373]">{user.email}</p>
+                                                </div>
+                                            </div>
+                                            <Link
+                                                to="/orders"
+                                                onClick={() => setIsMenuOpen(false)}
+                                                className="flex items-center gap-2 text-[#23A6F0] hover:opacity-80 font-bold text-lg"
+                                            >
+                                                <Package size={20} />
+                                                My Orders
+                                            </Link>
+                                            <button
+                                                onClick={() => {
+                                                    handleLogout();
+                                                    setIsMenuOpen(false);
+                                                }}
+                                                className="flex items-center gap-2 text-[#737373] hover:text-[#252B42] font-bold text-lg"
+                                            >
+                                                <LogOut size={20} />
+                                                Logout
+                                            </button>
+                                        </div>
+                                    ) : (
+                                        <div className="flex flex-col items-center gap-4">
+                                            <Link
+                                                to="/login"
+                                                onClick={() => setIsMenuOpen(false)}
+                                                className="flex items-center gap-2 text-[#23A6F0] hover:opacity-80 font-bold text-lg"
+                                            >
+                                                <User size={20} />
+                                                Login
+                                            </Link>
+                                            <Link
+                                                to="/signup"
+                                                onClick={() => setIsMenuOpen(false)}
+                                                className="flex items-center gap-2 text-[#23A6F0] hover:opacity-80 font-bold text-lg"
+                                            >
+                                                Register
+                                            </Link>
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
                     </div>
