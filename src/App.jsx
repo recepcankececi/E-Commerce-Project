@@ -12,6 +12,7 @@ import TeamPage from './pages/TeamPage';
 import AboutPage from './pages/AboutPage';
 import SignUpPage from './pages/SignUpPage';
 import LoginPage from './pages/LoginPage';
+import ShoppingCartPage from './pages/ShoppingCartPage';
 import ScrollToTop from './components/ScrollToTop';
 import { verifyToken } from './store/actions/clientActions';
 import { fetchCategories } from './store/actions/productActions';
@@ -32,6 +33,7 @@ function App() {
                 <PageContent>
                     <Switch>
                         <Route exact path="/" component={HomePage} />
+                        <Route path="/cart" component={ShoppingCartPage} />
                         <Route path="/shop/:gender/:categoryName/:categoryId/:productNameSlug/:productId" component={ProductDetailPage} />
                         <Route path="/shop/:gender/:categoryName/:categoryId" component={ShopPage} />
                         <Route path="/shop" component={ShopPage} />
